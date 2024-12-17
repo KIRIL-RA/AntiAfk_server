@@ -1,0 +1,34 @@
+// Генератор Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Подключение к SQLite
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Таблица clients
+model Client {
+  id   Int    @id @default(autoincrement()) // Автоматический ID
+  ip   String
+  name String
+}
+
+// Таблица presets
+model Preset {
+  id      String   @id @default(uuid()) // Уникальный UID для каждого пресета
+  name    String
+  buttons Button[] // Связь: у пресета может быть много кнопок
+}
+
+// Таблица buttons
+model Button {
+  id        Int     @id @default(autoincrement()) // Автоматический ID
+  name      String
+  type      String
+  action    String
+  preset_id String
+  preset    Preset  @relation(fields: [preset_id], references: [id]) // Связь с Preset
+}
