@@ -21,6 +21,7 @@ async function CreatePreset(preset: PresetDTO) {
     });
 
     console.log(newPreset);
+    GetPresets();
 }
 
 async function GetPresets() {
