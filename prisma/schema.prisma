@@ -12,7 +12,7 @@ datasource db {
 // Таблица clients
 model Client {
   id   Int    @id @default(autoincrement()) // Автоматический ID
-  ip   String
+  ip   String @unique
   name String
 }
 

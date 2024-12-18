@@ -1,6 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import prisma from './prisma';
 import { ButtonActionTypes, PresetDTO } from '../interfaces/preset'
-const prisma = new PrismaClient();
 
 /**
  * Create new preset, and save it into database
@@ -20,9 +19,6 @@ async function CreatePreset(preset: PresetDTO) {
             buttons: true, // Включить кнопки в результат
         },
     });
-
-    console.log(newPreset);
-    GetPresets();
 }
 
 async function GetPresets(): Promise<object> {
