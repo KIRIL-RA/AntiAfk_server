@@ -10,6 +10,7 @@ import getAllPresets from "./routes/get_all_presets"
 import getPreset from "./routes/get_preset"
 
 import createClient from "./routes/add_client_name"
+import getClient from "./routes/get_client"
 
 // Config server
 const clientPort = 3000;
@@ -24,6 +25,7 @@ app.use(getAllPresets);
 app.use(getPreset);
 
 app.use(createClient);
+app.use(getClient);
 
 // Setting up socket
 const server = http.createServer(app);

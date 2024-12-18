@@ -12,7 +12,7 @@ addPresetRoute.post('/create_client', [
 ],
     async (req: Request, res: Response) => {
         const client = req.body;
-
+        
         // Trying to create preset
         try{
             await createClient(client);
