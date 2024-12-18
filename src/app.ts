@@ -6,6 +6,7 @@ import express  from 'express';
 
 // Import routes
 import createPreset from "./routes/add_preset"
+import getAllPresets from "./routes/get_all_presets"
 
 // Config server
 const clientPort = 3000;
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 app.use(createPreset);
+app.use(getAllPresets);
 
 // Setting up socket
 const server = http.createServer(app);

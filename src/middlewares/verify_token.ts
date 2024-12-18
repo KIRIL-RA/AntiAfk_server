@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 
 function verifyToken (req: Request, res: Response, next: NextFunction) {
-    const token = req.body?.token;
+    const token = req.body?.token || req?.query?.token;
 
     if(token){
         if(token == process.env.GET_TOKEN) next();

@@ -24,9 +24,9 @@ async function CreatePreset(preset: PresetDTO) {
     GetPresets();
 }
 
-async function GetPresets() {
+async function GetPresets(): Promise<object> {
     const presets =  await prisma.preset.findMany();
-    console.log(presets);
+    return presets;
 }
 
 export {CreatePreset, GetPresets};
