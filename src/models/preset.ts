@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
  * @param preset 
  */
 async function CreatePreset(preset: PresetDTO) {
+
     // Save preset in database
     const newPreset = await prisma.preset.create({
         data: {
@@ -25,7 +26,7 @@ async function CreatePreset(preset: PresetDTO) {
 }
 
 async function GetPresets(): Promise<object> {
-    const presets =  await prisma.preset.findMany();
+    const presets = await prisma.preset.findMany();
     return presets;
 }
 
@@ -36,8 +37,8 @@ async function GetPresets(): Promise<object> {
  */
 async function getPresetById(presetId: string): Promise<PresetDTO | {}> {
     // Function for getting button action
-    const getButtonAction = function (type:String): ButtonActionTypes{
-        switch(type){
+    const getButtonAction = function (type: String): ButtonActionTypes {
+        switch (type) {
             case ButtonActionTypes.open:
                 return ButtonActionTypes.open;
             case ButtonActionTypes.press:
@@ -48,36 +49,36 @@ async function getPresetById(presetId: string): Promise<PresetDTO | {}> {
     };
 
     try {
-      // Поиск пресета с вложенными кнопками
-      const preset = await prisma.preset.findUnique({
-        where: {
-          id: presetId,
-        },
-        include: {
-          buttons: true, // Включаем кнопки в результат
-        },
-      });
-  
-      if (!preset) {
-        console.log(`Пресет с ID ${presetId} не найден.`);
-        return {};
-      }
-  
-      // Возвращаем имя пресета и его кнопки
-      return {
-        name: preset.name,
-        buttons: preset.buttons.map((button) => ({
-          id: button.id,
-          name: button.name,
-          type: getButtonAction(button.type),
-          action: button.action,
-        })),
-      };
-    } catch (e) {
-      console.error('Ошибка при поиске пресета:', e);
-      throw e;
-    } 
-  }
-  
+        // Поиск пресета с вложенными кнопками
+        const preset = await prisma.preset.findUnique({
+            where: {
+                id: presetId,
+            },
+            include: {
+                buttons: true, // Включаем кнопки в результат
+            },
+        });
 
-export {CreatePreset, GetPresets, getPresetById};
+        if (!preset) {
+            console.log(`Пресет с ID ${presetId} не найден.`);
+            return {};
+        }
+
+        // Возвращаем имя пресета и его кнопки
+        return {
+            name: preset.name,
+            buttons: preset.buttons.map((button) => ({
+                id: button.id,
+                name: button.name,
+                type: getButtonAction(button.type),
+                action: button.action,
+            })),
+        };
+    } catch (e) {
+        console.error('Ошибка при поиске пресета:', e);
+        throw e;
+    }
+}
+
+
+export { CreatePreset, GetPresets, getPresetById };

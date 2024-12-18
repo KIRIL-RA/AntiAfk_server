@@ -1,0 +1,365 @@
+{
+    "Enter": {
+        "label": "enter",
+        "code": "@10"
+    },
+    "Backspace": {
+        "label": "backspace",
+        "code": "@8"
+    },
+    "Tab": {
+        "label": "tab",
+        "code": "@9"
+    },
+    "Shift": {
+        "label": "shift",
+        "code": "@16"
+    },
+    "Control": {
+        "label": "control",
+        "code": "@17"
+    },
+    "Alt": {
+        "label": "alt",
+        "code": "@18"
+    },
+    "Pause": {
+        "label": "pause",
+        "code": "@19"
+    },
+    "Caps Lock": {
+        "label": "capslock",
+        "code": "@20"
+    },
+    "Esc": {
+        "label": "escape",
+        "code": "@27"
+    },
+    "Space": {
+        "label": "space",
+        "code": "@32"
+    },
+    "Page Up": {
+        "label": "pageup",
+        "code": "@33"
+    },
+    "Page Down": {
+        "label": "pagedown",
+        "code": "@34"
+    },
+    "End": {
+        "label": "end",
+        "code": "@35"
+    },
+    "Home": {
+        "label": "home",
+        "code": "@36"
+    },
+    "Left Arrow": {
+        "label": "leftarrow",
+        "code": "@37"
+    },
+    "Up Arrow": {
+        "label": "uparrow",
+        "code": "@38"
+    },
+    "Right Arrow": {
+        "label": "rightarrow",
+        "code": "@39"
+    },
+    "Down Arrow": {
+        "label": "downarrow",
+        "code": "@40"
+    },
+    "Comma": {
+        "label": "comma",
+        "code": "@44"
+    },
+    "Minus": {
+        "label": "minus",
+        "code": "@45"
+    },
+    "Period": {
+        "label": "period",
+        "code": "@46"
+    },
+    "Slash": {
+        "label": "slash",
+        "code": "@47"
+    },
+    "0": {
+        "label": "0",
+        "code": "@48"
+    },
+    "1": {
+        "label": "1",
+        "code": "@49"
+    },
+    "2": {
+        "label": "2",
+        "code": "@50"
+    },
+    "3": {
+        "label": "3",
+        "code": "@51"
+    },
+    "4": {
+        "label": "4",
+        "code": "@52"
+    },
+    "5": {
+        "label": "5",
+        "code": "@53"
+    },
+    "6": {
+        "label": "6",
+        "code": "@54"
+    },
+    "7": {
+        "label": "7",
+        "code": "@55"
+    },
+    "8": {
+        "label": "8",
+        "code": "@56"
+    },
+    "9": {
+        "label": "9",
+        "code": "@57"
+    },
+    "Semicolon": {
+        "label": "semicolon",
+        "code": "@59"
+    },
+    "Equals": {
+        "label": "equals",
+        "code": "@61"
+    },
+    "A": {
+        "label": "a",
+        "code": "@65"
+    },
+    "B": {
+        "label": "b",
+        "code": "@66"
+    },
+    "C": {
+        "label": "c",
+        "code": "@67"
+    },
+    "D": {
+        "label": "d",
+        "code": "@68"
+    },
+    "E": {
+        "label": "e",
+        "code": "@69"
+    },
+    "F": {
+        "label": "f",
+        "code": "@70"
+    },
+    "G": {
+        "label": "g",
+        "code": "@71"
+    },
+    "H": {
+        "label": "h",
+        "code": "@72"
+    },
+    "I": {
+        "label": "i",
+        "code": "@73"
+    },
+    "J": {
+        "label": "j",
+        "code": "@74"
+    },
+    "K": {
+        "label": "k",
+        "code": "@75"
+    },
+    "L": {
+        "label": "l",
+        "code": "@76"
+    },
+    "M": {
+        "label": "m",
+        "code": "@77"
+    },
+    "N": {
+        "label": "n",
+        "code": "@78"
+    },
+    "O": {
+        "label": "o",
+        "code": "@79"
+    },
+    "P": {
+        "label": "p",
+        "code": "@80"
+    },
+    "Q": {
+        "label": "q",
+        "code": "@81"
+    },
+    "R": {
+        "label": "r",
+        "code": "@82"
+    },
+    "S": {
+        "label": "s",
+        "code": "@83"
+    },
+    "T": {
+        "label": "t",
+        "code": "@84"
+    },
+    "U": {
+        "label": "u",
+        "code": "@85"
+    },
+    "V": {
+        "label": "v",
+        "code": "@86"
+    },
+    "W": {
+        "label": "w",
+        "code": "@87"
+    },
+    "X": {
+        "label": "x",
+        "code": "@88"
+    },
+    "Y": {
+        "label": "y",
+        "code": "@89"
+    },
+    "Z": {
+        "label": "z",
+        "code": "@90"
+    },
+    "Open Bracket": {
+        "label": "openbracket",
+        "code": "@91"
+    },
+    "Numpad 0": {
+        "label": "numpad0",
+        "code": "@96"
+    },
+    "Numpad 1": {
+        "label": "numpad1",
+        "code": "@97"
+    },
+    "Numpad 2": {
+        "label": "numpad2",
+        "code": "@98"
+    },
+    "Numpad 3": {
+        "label": "numpad3",
+        "code": "@99"
+    },
+    "Numpad 4": {
+        "label": "numpad4",
+        "code": "@100"
+    },
+    "Numpad 5": {
+        "label": "numpad5",
+        "code": "@101"
+    },
+    "Numpad 6": {
+        "label": "numpad6",
+        "code": "@102"
+    },
+    "Numpad 7": {
+        "label": "numpad7",
+        "code": "@103"
+    },
+    "Numpad 8": {
+        "label": "numpad8",
+        "code": "@104"
+    },
+    "Numpad 9": {
+        "label": "numpad9",
+        "code": "@105"
+    },
+    "Multiply": {
+        "label": "multiply",
+        "code": "@106"
+    },
+    "Add": {
+        "label": "add",
+        "code": "@107"
+    },
+    "Subtract": {
+        "label": "subtract",
+        "code": "@109"
+    },
+    "Decimal": {
+        "label": "decimal",
+        "code": "@110"
+    },
+    "Divide": {
+        "label": "divide",
+        "code": "@111"
+    },
+    "Delete": {
+        "label": "delete",
+        "code": "@127"
+    },
+    "Num Lock": {
+        "label": "numlock",
+        "code": "@144"
+    },
+    "Scroll Lock": {
+        "label": "scrolllock",
+        "code": "@145"
+    },
+    "F1": {
+        "label": "f1",
+        "code": "@112"
+    },
+    "F2": {
+        "label": "f2",
+        "code": "@113"
+    },
+    "F3": {
+        "label": "f3",
+        "code": "@114"
+    },
+    "F4": {
+        "label": "f4",
+        "code": "@115"
+    },
+    "F5": {
+        "label": "f5",
+        "code": "@116"
+    },
+    "F6": {
+        "label": "f6",
+        "code": "@117"
+    },
+    "F7": {
+        "label": "f7",
+        "code": "@118"
+    },
+    "F8": {
+        "label": "f8",
+        "code": "@119"
+    },
+    "F9": {
+        "label": "f9",
+        "code": "@120"
+    },
+    "F10": {
+        "label": "f10",
+        "code": "@121"
+    },
+    "F11": {
+        "label": "f11",
+        "code": "@122"
+    },
+    "F12": {
+        "label": "f12",
+        "code": "@123"
+    }}
