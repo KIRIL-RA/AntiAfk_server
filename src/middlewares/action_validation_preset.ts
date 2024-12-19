@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { ClientDTO } from '../interfaces/clients';
+import { ActionDTO } from '../interfaces/preset';
 
-export const validateCLientUpdateMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const validateActionMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   // Проверяем, что тело запроса не пустое
   if (!req.body) {
     res.status(400).json({ error: 'Request body is required' });
     return;
   }
 
-  const presetInstance = plainToInstance(ClientDTO, req.body); // Преобразуем тело запроса в класс PresetDTO
+  const presetInstance = plainToInstance(ActionDTO, req.body); // Преобразуем тело запроса в класс PresetDTO
 
   // Проверка, что объект после преобразования не является null или undefined
   if (!presetInstance) {

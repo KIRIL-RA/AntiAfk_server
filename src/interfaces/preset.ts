@@ -34,3 +34,18 @@ export class PresetDTO {
   buttons!: ButtonsDTO[];
   constructor(){}
 }
+
+// DTO для выполнения действия
+export class ActionDTO{
+  @IsString()
+  presetId!: string;
+
+  @IsString()
+  buttonName!:string;
+
+  @IsArray()
+  @ArrayMinSize(1, { message: 'It must be at least one client in clients array' })
+  @IsString({ each: true })
+  @Type(() => String) // Обязательно для преобразования массива объектов
+  emitClients!: string[]
+}

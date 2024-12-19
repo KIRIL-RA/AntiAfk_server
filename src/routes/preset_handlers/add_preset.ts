@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-import { validatePresetMiddleware } from '../middlewares/prest_validation';
-import verifyToken from '../middlewares/verify_token';
-import {CreatePreset} from '../models/preset';
+import { validatePresetMiddleware } from '../../middlewares/prest_validation';
+import verifyToken from '../../middlewares/verify_token';
+import {CreatePreset} from '../../models/preset';
 
 const addPresetRoute = express.Router();
 

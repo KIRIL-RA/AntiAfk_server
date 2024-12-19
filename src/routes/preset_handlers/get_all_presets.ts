@@ -1,19 +1,18 @@
 import express, { Request, Response } from 'express';
-import verifyToken from '../middlewares/verify_token';
-import {getPresetById} from '../models/preset';
+import verifyToken from '../../middlewares/verify_token';
+import {GetPresets} from '../../models/preset';
 
 const addPresetRoute = express.Router();
 
-addPresetRoute.get('/get_preset/:presetId', [
+addPresetRoute.get('/get_all_presets', [
     verifyToken
 ],
     async (req: Request, res: Response) => {
-        const presetId = req.params.presetId;
 
         // Getting presets
         try{
-            const preset = await getPresetById(presetId);
-            res.status(200).json({ status: 'ok', data: preset});
+            const presets = await GetPresets();
+            res.status(200).json({ status: 'ok', data: presets});
         }
         // Catching errors
         catch(e){

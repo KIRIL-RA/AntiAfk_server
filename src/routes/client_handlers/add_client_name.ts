@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
-import { validateCLientMiddleware } from '../middlewares/client_name_validation';
-import verifyToken from '../middlewares/verify_token';
-import { updateClient } from '../models/client';
+import { validateCLientMiddleware } from '../../middlewares/client_name_validation';
+import verifyToken from '../../middlewares/verify_token';
+import { createClient } from '../../models/client';
 import { Prisma } from '@prisma/client';
 
 const addPresetRoute = express.Router();
 
-addPresetRoute.post('/update_client', [
+addPresetRoute.post('/create_client', [
     verifyToken,
     validateCLientMiddleware
 ],
@@ -15,10 +15,9 @@ addPresetRoute.post('/update_client', [
         
         // Trying to create preset
         try{
-            await updateClient(client?.ip, client?.name);
+            await createClient(client);
             res.status(200).json({ status: 'ok'});
         }
-
         // Catching errors
         catch(e){
             console.log(e);

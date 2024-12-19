@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import verifyToken from '../middlewares/verify_token';
-import { getClientByIp } from '../models/client'
+import verifyToken from '../../middlewares/verify_token';
+import { getClientByIp } from '../../models/client'
 
 const addPresetRoute = express.Router();
 
