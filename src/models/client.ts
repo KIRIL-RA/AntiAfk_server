@@ -16,16 +16,15 @@ async function createClient(client: ClientDTO) {
     });
 }
 
-async function updateClient(clientId: number, client: ClientDTO) {
+async function updateClient(clientIp: string, newName: string) {
     // Update client in database
     const clientUpd = await prisma.client.update(
         {
             where: {
-                id: clientId
+                ip: clientIp
             },
             data: {
-                name: client.name,
-                ip: client.ip
+                name: newName,
             }
         });
 }
@@ -49,7 +48,6 @@ async function getClientByIp(ipAddress: string) {
         return null;
       }
 
-      console.log(client);
       // Возвращаем информацию о клиенте
       return {
         id: client.id,
