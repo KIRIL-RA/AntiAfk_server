@@ -1,4 +1,4 @@
-function createTable(buttons, rows) {
+function createTable(buttons, rows, prestId, password, sendActionFunction) {
     const columns = buttons?.length+2;
 
     clearTable();
@@ -26,9 +26,10 @@ function createTable(buttons, rows) {
                 const rowName = row.cells[0].innerHTML;
                 console.log(rowName);
                 if (checkbox && checkbox.checked) {
-                    activeRows.push(`${rowName} ${rowIndex + 1}`);
+                    activeRows.push(rowName);
                 }
             });
+            sendActionFunction(prestId, buttonName?.replace("'", ""), activeRows, password);
             console.log(`Active checkboxes under '${buttonName}':`, activeRows);
         });
         th.appendChild(button);

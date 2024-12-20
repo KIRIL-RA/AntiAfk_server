@@ -68,3 +68,44 @@ async function getKeys(password) {
         return { msg: e }
     }
 }
+
+async function createPrest(name, buttons, password) {
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            name: name,
+            buttons: buttons
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/add_preset`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+} 
+
+async function activatePreset(presetId, buttonName, emitClients, password){
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            presetId: presetId,
+            buttonName: buttonName,
+            emitClients: emitClients
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/send_action`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+}

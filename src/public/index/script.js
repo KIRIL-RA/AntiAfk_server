@@ -1,6 +1,7 @@
 // Buttons selector
 let ips = [];
 let buttonNames = [];
+let selectedPresed = '';
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
@@ -32,7 +33,13 @@ async function loginButton() {
     connectSocket(password, clearConnectionData, (_ips) => {
         console.log(_ips);
         ips = _ips;
-        createTable(buttonNames, ips);
+        createTable(buttonNames, ips, selectedPresed, password, activatePreset);
+    });
+
+    presetForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendPreset(password);
+        presetsFill(password);
     });
 }
 
@@ -64,11 +71,20 @@ async function handleChangePreset(presetId, password) {
     const buttons = presetData?.data?.buttons;
     buttonNames = buttons?.map(item => item.name);
 
-    createTable(buttonNames, ips);
+    selectedPresed = presetId;
+    createTable(buttonNames, ips, selectedPresed, password, activatePreset);
 }
 
 function fillPresets(preset, password){
+    const removeOptions = (selectElement) => {
+        var i, L = selectElement.options.length - 1;
+        for(i = L; i >= 0; i--) {
+           selectElement.remove(i);
+        }
+     }
+
     const selectElement = document.getElementById('presetSelect');
+    removeOptions(selectElement);
 
     // Fill presets
     preset?.data.forEach(preset => {
@@ -103,6 +119,3 @@ function setHeaderButtons(state){
     openModalButton.style.visibility = state ? "visible" : "hidden";
     selectPreset.style.visibility = state ? "visible" : "hidden";
 }
-
-// Example Usage
-//createTable(5, ['Button 1', 'Button 2', 'Button 3'], ['Row 1', 'Row 2', 'Row 3']);

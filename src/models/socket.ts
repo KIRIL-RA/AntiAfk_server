@@ -107,7 +107,8 @@ export async function sendAction(params: ActionDTO) {
         // Send command to all clients
         params.emitClients.forEach(client => {
             console.log(`${command} -> ${client}`);
-
+            client = client.replace(' ', '');
+            
             // Search client in list
             const clientId = Object.keys(connectedClients).find(
                 (id) => id === client

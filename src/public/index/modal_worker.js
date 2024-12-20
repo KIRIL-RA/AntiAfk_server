@@ -53,8 +53,7 @@ cancelButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', addRow);
 
-presetForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+function sendPreset(password) {
 
     const formData = new FormData(presetForm);
     const name = formData.get('presetName');
@@ -79,10 +78,9 @@ presetForm.addEventListener('submit', (e) => {
         buttons: buttons
     };
 
-    console.log(result);
-    alert('Form submitted! Check the console for data.');
+    createPrest(result.name, result.buttons, password).catch(e=>{alert(e)});
     modal.classList.remove('active');
-});
+}
 
 function attachActionChangeHandler(selector) {
     selector.addEventListener('change', function () {
