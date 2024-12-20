@@ -39,6 +39,7 @@ async function loginButton() {
 // Fill preset 
 async function presetsFill(password){
     const preset = await getPresets(password);
+    console.log(preset);
     if(preset?.msg != undefined){
         clearConnectionData(preset.msg);
         return;
