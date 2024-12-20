@@ -21,11 +21,11 @@ const app = express();
 const server = createServer(app);
 
 // Setting up server
-initializeWebSocket(server, 'passwd', 'passwd');
+initializeWebSocket(server, 'passwd', process.env.GET_TOKEN || "passwd");
 
 // Setting up routes
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static("src/public"));
 
 app.use(createPreset);
 app.use(getAllPresets);

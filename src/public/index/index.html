@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnitAfk</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <div class="login-input">
+            <input id="password-field" type="password">
+            <button id="loginB">Log In</button>
+        </div>
+        <div class="preset_select">
+            <label for="presetSelect">Выберите пресет:</label>
+            <select id="presetSelect"></select>
+        </div>
+    </header>
+    <div id="table-container"></div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="table_worker.js"></script>
+<script src="preset_worker.js"></script>
+<script src="socket_worker.js"></script>
+<script src="script.js"></script>
+
+</html>

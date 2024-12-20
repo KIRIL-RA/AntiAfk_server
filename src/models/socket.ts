@@ -61,17 +61,18 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                 return;
                 break;
         }
-    });
 
-    // Handle client disconnection
-    clientIO.on('disconnect', () => {
-        const disconnectedID = Object.keys(connectedClients).find(
-            (id) => connectedClients[id] === clientIO
-        );
-        if (disconnectedID) {
-            delete connectedClients[disconnectedID];
-            clientIO.emit(SocketRoom.STATUSES, Object.keys(connectedClients));
-        }
+        // Handle client disconnection
+        clientSocket.on('disconnect', () => {
+            const disconnectedID = Object.keys(connectedClients).find(
+                (id) => connectedClients[id] === clientSocket
+            );
+
+            if (disconnectedID) {
+                delete connectedClients[disconnectedID];
+                clientIO.emit(SocketRoom.STATUSES, Object.keys(connectedClients));
+            }
+        });
     });
 };
 
