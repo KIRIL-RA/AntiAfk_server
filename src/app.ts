@@ -8,6 +8,7 @@ import express  from 'express';
 import createPreset from "./routes/preset_handlers/add_preset"
 import getAllPresets from "./routes/preset_handlers/get_all_presets"
 import getPreset from "./routes/preset_handlers/get_preset"
+import getKeys from "./routes/preset_handlers/get_keys_for_presets"
 
 import createClient from "./routes/client_handlers/add_client_name"
 import getClient from "./routes/client_handlers/get_client"
@@ -30,6 +31,7 @@ app.use(express.static("src/public"));
 app.use(createPreset);
 app.use(getAllPresets);
 app.use(getPreset);
+app.use(getKeys);
 
 app.use(createClient);
 app.use(getClient);
