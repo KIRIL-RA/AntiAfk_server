@@ -12,7 +12,6 @@ import getKeys from "./routes/preset_handlers/get_keys_for_presets"
 
 import createClient from "./routes/client_handlers/add_client_name"
 import getClient from "./routes/client_handlers/get_client"
-import updateClient from "./routes/client_handlers/update_client"
 
 import sendAction from "./routes/action_handlers/send_action"
 import sendButton from "./routes/action_handlers/send_button"
@@ -36,7 +35,6 @@ app.use(getKeys);
 
 app.use(createClient);
 app.use(getClient);
-app.use(updateClient);
 
 app.use(sendAction);
 app.use(sendButton);
