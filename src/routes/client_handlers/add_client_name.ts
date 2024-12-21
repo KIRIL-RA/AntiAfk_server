@@ -21,10 +21,6 @@ addPresetRoute.post('/create_client', [
         // Catching errors
         catch(e){
             console.log(e);
-            if(e instanceof Prisma.PrismaClientKnownRequestError){
-                res.status(400).json({ errors: ["Ip already exist"] });
-                return;
-            }
             res.status(500).json({ errors: ["Unexpected error"] });
         }
 
