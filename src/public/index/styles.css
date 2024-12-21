@@ -8,8 +8,7 @@ button {
     font-weight: bold;
     border: 2px solid black;
     border-radius: 5px;
-    width: 80px;
-    height: 20px;
+    height: 30px;
 }
 
 button:hover {
@@ -56,10 +55,20 @@ th:first-child {
 
 th:last-child {
     width: 300px;
+    display: flex;
+    flex-direction: row;
 }
 
 td:first-child {
-    width: 100px;
+    display: flex;
+    flex-direction: row;
+    width: 150px;
+}
+
+td:first-child button {
+    height: 20px;
+    width: 20px;
+    font-size: 5px;
 }
 
 td:last-child {
@@ -68,4 +77,8 @@ td:last-child {
 
 th:nth-last-child(2), td:nth-last-child(2) {
     border-right: 2px solid #000;
+}
+
+input, select{
+    max-width: 70px;
 }

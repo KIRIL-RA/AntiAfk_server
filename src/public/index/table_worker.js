@@ -55,8 +55,8 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     button.addEventListener('click', () => {
         const activeRows = [];
         table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
-            const checkbox = row.cells[columns - 1].querySelector('input[type="checkbox"]');
-            const rowName = row.cells[0].innerHTML;
+            const checkbox = row.cells[columns].querySelector('input[type="checkbox"]');
+            const rowName = row.cells[0]?.querySelectorAll('span')[0].innerHTML;
             if (checkbox && checkbox.checked) {
                 activeRows.push(rowName);
             }
