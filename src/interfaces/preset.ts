@@ -1,4 +1,4 @@
-import { IsString, IsEnum, ValidateNested, IsArray, ArrayMinSize } from 'class-validator';
+import { IsString, IsEnum, ValidateNested, IsArray, ArrayMinSize, IsNumber } from 'class-validator';
 import 'reflect-metadata';
 import { Type } from 'class-transformer';
 
@@ -42,6 +42,20 @@ export class ActionDTO{
 
   @IsString()
   buttonName!:string;
+
+  @IsArray()
+  @ArrayMinSize(1, { message: 'It must be at least one client in clients array' })
+  @IsString({ each: true })
+  @Type(() => String) // Обязательно для преобразования массива объектов
+  emitClients!: string[]
+}
+
+export class SendButtonClickDTO{
+  @IsNumber()
+  repeatsCount!: number;
+
+  @IsString()
+  action!:string;
 
   @IsArray()
   @ArrayMinSize(1, { message: 'It must be at least one client in clients array' })
