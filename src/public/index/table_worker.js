@@ -1,9 +1,9 @@
 function createTable(buttons, rows, prestId, password, sendActionFunction) {
-    const columns = buttons?.length+2;
+    const columns = buttons?.length + 2;
 
     clearTable();
     const tableContainer = document.getElementById('table-container');
-    
+
     // Create table element
     const table = document.createElement('table');
     table.setAttribute("id", "ipTable");
@@ -12,8 +12,13 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
 
-    const emptyHeader = document.createElement('th');
-    headerRow.appendChild(emptyHeader);
+    const ipHeader = document.createElement('th');
+    ipHeader.textContent = 'IP';
+    headerRow.appendChild(ipHeader);
+
+    const aliasHeader = document.createElement('th');
+    aliasHeader.textContent = 'Alias';
+    headerRow.appendChild(aliasHeader);
 
     buttons.forEach((buttonName, colIndex) => {
         const th = document.createElement('th');
@@ -22,7 +27,7 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
         button.addEventListener('click', () => {
             const activeRows = [];
             table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
-                const checkbox = row.cells[colIndex + 1].querySelector('input[type="checkbox"]');
+                const checkbox = row.cells[colIndex + 2].querySelector('input[type="checkbox"]');
                 const rowName = row.cells[0].innerHTML;
                 console.log(rowName);
                 if (checkbox && checkbox.checked) {
@@ -32,12 +37,38 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
             sendActionFunction(prestId, buttonName?.replace("'", ""), activeRows, password);
             console.log(`Active checkboxes under '${buttonName}':`, activeRows);
         });
+
         th.appendChild(button);
         headerRow.appendChild(th);
     });
 
     const lastHeader = document.createElement('th');
-    lastHeader.innerHTML = `Repeats <input type="number" min="1"> <select><option>Option 1</option><option>Option 2</option></select> <button>Go</button>`;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '1';
+
+    const select = document.createElement('select');
+    select.id = 'repeats_select';
+
+    const button = document.createElement('button');
+    button.textContent = 'Go';
+    button.addEventListener('click', () => {
+        const activeRows = [];
+        table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+            const checkbox = row.cells[columns - 1].querySelector('input[type="checkbox"]');
+            const rowName = row.cells[0].innerHTML;
+            if (checkbox && checkbox.checked) {
+                activeRows.push(rowName);
+            }
+        });
+
+        sendPushButton(select.value, input.value, activeRows, password);
+    });
+
+    lastHeader.appendChild(document.createTextNode('Repeats '));
+    lastHeader.appendChild(input);
+    lastHeader.appendChild(select);
+    lastHeader.appendChild(button);
     headerRow.appendChild(lastHeader);
 
     thead.appendChild(headerRow);
@@ -46,13 +77,18 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     // Create the body rows
     const tbody = document.createElement('tbody');
 
-    rows.forEach(rowName => {
+    rows.forEach(rowObj => {
         const row = document.createElement('tr');
 
-        // Add checkbox and row name in the first column
-        const firstCell = document.createElement('td');
-        firstCell.appendChild(document.createTextNode(` ${rowName}`));
-        row.appendChild(firstCell);
+        // Add IP column
+        const ipCell = document.createElement('td');
+        ipCell.textContent = rowObj.ip;
+        row.appendChild(ipCell);
+
+        // Add Alias column
+        const aliasCell = document.createElement('td');
+        aliasCell.textContent = rowObj.rowName || '';
+        row.appendChild(aliasCell);
 
         // Add checkboxes for other columns except the last
         for (let i = 0; i < columns - 2; i++) {
@@ -79,7 +115,28 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     tableContainer.appendChild(table);
 }
 
-function clearTable(){
+function fillRepeatOptions(options) {
+    const removeOptions = (selectElement) => {
+        var i, L = selectElement?.options?.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+
+    const selectElement = document.getElementById('repeats_select');
+    console.log(selectElement);
+    removeOptions(selectElement);
+
+    // Fill buttons
+    options?.forEach(optionEl => {
+        const option = document.createElement('option');
+        option.value = optionEl;
+        option.textContent = optionEl;
+        selectElement.appendChild(option);
+    });
+}
+
+function clearTable() {
     const table = document.getElementById('ipTable');
     table?.remove();
 }

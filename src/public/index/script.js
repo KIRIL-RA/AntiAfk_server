@@ -12,7 +12,7 @@ firstInit();
 
 async function firstInit() {
     openModalButton.style.visibility = "hidden";
-    selectPreset.style.visibility ="hidden";
+    selectPreset.style.visibility = "hidden";
     connectButton.addEventListener('click', () => loginButton());
 }
 
@@ -24,16 +24,22 @@ async function loginButton() {
 
     // Getting preset
     await presetsFill(password);
-    
+
     openModalButton.addEventListener('click', () => {
         initializeForm(password);
         modal.classList.add('active');
     });
-    
-    connectSocket(password, clearConnectionData, (_ips) => {
-        console.log(_ips);
+
+    connectSocket(password, clearConnectionData, async (_ips) => {
+        // Get keys
+        const keysResp = await getKeys(password);
+        const keys = Object.keys(keysResp.data);
+
         ips = _ips;
-        createTable(buttonNames, ips, selectedPresed, password, activatePreset);
+        await createTable(buttonNames, ips, selectedPresed, password, activatePreset, keys);
+
+        // Fill repeats
+        fillRepeatOptions(keys);
     });
 
     presetForm.addEventListener('submit', (e) => {
@@ -44,10 +50,10 @@ async function loginButton() {
 }
 
 // Fill preset 
-async function presetsFill(password){
+async function presetsFill(password) {
     const preset = await getPresets(password);
     console.log(preset);
-    if(preset?.msg != undefined){
+    if (preset?.msg != undefined) {
         clearConnectionData(preset.msg);
         return;
     }
@@ -62,7 +68,7 @@ async function presetsFill(password){
 
 async function handleChangePreset(presetId, password) {
     const presetData = await getPreset(presetId, password);
-    if(presetData.data == null){
+    if (presetData.data == null) {
         alert("Preset not founded");
         return;
     }
@@ -75,13 +81,13 @@ async function handleChangePreset(presetId, password) {
     createTable(buttonNames, ips, selectedPresed, password, activatePreset);
 }
 
-function fillPresets(preset, password){
+function fillPresets(preset, password) {
     const removeOptions = (selectElement) => {
         var i, L = selectElement.options.length - 1;
-        for(i = L; i >= 0; i--) {
-           selectElement.remove(i);
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
         }
-     }
+    }
 
     const selectElement = document.getElementById('presetSelect');
     removeOptions(selectElement);
@@ -89,9 +95,9 @@ function fillPresets(preset, password){
     // Fill presets
     preset?.data.forEach(preset => {
         const option = document.createElement('option');
-            option.value = preset.id; // id пресета
-            option.textContent = preset.name; // name пресета
-            selectElement.appendChild(option);
+        option.value = preset.id; // id пресета
+        option.textContent = preset.name; // name пресета
+        selectElement.appendChild(option);
     });
 
     // Hadler for selector
@@ -112,7 +118,7 @@ function clearConnectionData(message) {
     alert(message);
 }
 
-function setHeaderButtons(state){
+function setHeaderButtons(state) {
     passwordField.disabled = state;
     connectButton.disabled = state;
 

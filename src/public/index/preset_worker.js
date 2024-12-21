@@ -109,3 +109,24 @@ async function activatePreset(presetId, buttonName, emitClients, password){
         alert(e);
     }   
 }
+
+async function sendPushButton(buttonName, repeats, emitClients, password) {
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            repeatsCount: Number(repeats),
+            action: buttonName,
+            emitClients: emitClients
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/send_button`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+} 
