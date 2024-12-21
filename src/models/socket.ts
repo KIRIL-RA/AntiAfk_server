@@ -56,7 +56,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     ip: clientSocket.handshake.address,
                     name: clientName
                 });
-                clientIO.emit(SocketRoom.STATUSES, JSON.stringify(connectedClientsDto));
+                clientIO.emit(SocketRoom.STATUSES, connectedClientsDto);
                 break;
 
             // If we connect frontend
@@ -66,7 +66,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     return;
                 }
                 console.log('Front-end: ', clientSocket.handshake.address);
-                clientSocket.emit(SocketRoom.INIT_FRONT, JSON.stringify(connectedClientsDto));
+                clientSocket.emit(SocketRoom.INIT_FRONT, connectedClientsDto);
                 break;
             // Default
             default:
@@ -91,7 +91,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                 connectedClientsDto.forEach((dto, i ) =>{
                     if(dto.ip == disconnectedID) connectedClientsDto.splice(i, 1);
                 });
-                clientIO.emit(SocketRoom.STATUSES, JSON.stringify(connectedClientsDto));
+                clientIO.emit(SocketRoom.STATUSES, connectedClientsDto);
             }
         });
     });
