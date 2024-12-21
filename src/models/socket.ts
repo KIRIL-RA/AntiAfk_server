@@ -65,6 +65,17 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     clientSocket.disconnect();
                     return;
                 }
+
+                // Updating names
+                for(let connectedClientDtoI = 0; connectedClientDtoI < connectedClientsDto.length; connectedClientDtoI++){
+                    // Getting data from db
+                    const clientData = await getClientByIp(connectedClientsDto[connectedClientDtoI].ip);
+                    const clientName:string = clientData != null ? clientData?.name : "";
+
+                    connectedClientsDto[connectedClientDtoI].name = clientName;
+                }
+
+                // Send data to client
                 console.log('Front-end: ', clientSocket.handshake.address);
                 clientSocket.emit(SocketRoom.INIT_FRONT, connectedClientsDto);
                 break;
