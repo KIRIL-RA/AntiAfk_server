@@ -2,6 +2,7 @@
 let ips = [];
 let buttonNames = [];
 let selectedPresed = '';
+let keys = '';
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
@@ -33,7 +34,7 @@ async function loginButton() {
     connectSocket(password, clearConnectionData, async (_ips) => {
         // Get keys
         const keysResp = await getKeys(password);
-        const keys = Object.keys(keysResp.data);
+        keys = Object.keys(keysResp.data);
 
         ips = _ips;
         await createTable(buttonNames, ips, selectedPresed, password, activatePreset, keys);
@@ -101,9 +102,12 @@ function fillPresets(preset, password) {
     });
 
     // Hadler for selector
-    selectElement.addEventListener('change', (event) => {
+    selectElement.addEventListener('change', async (event) => {
         const selectedId = event.target.value;
-        handleChangePreset(selectedId, password);
+        await handleChangePreset(selectedId, password);
+
+        // Fill repeats
+        await fillRepeatOptions(keys);
         console.log('Выбранный ID пресета:', selectedId);
     });
 

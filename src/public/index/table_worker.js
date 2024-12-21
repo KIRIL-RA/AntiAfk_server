@@ -28,7 +28,7 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
             const activeRows = [];
             table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
                 const checkbox = row.cells[colIndex + 2].querySelector('input[type="checkbox"]');
-                const rowName = row.cells[0].innerHTML;
+                const rowName = row.cells[0]?.querySelectorAll('span')[0].innerHTML;
                 console.log(rowName);
                 if (checkbox && checkbox.checked) {
                     activeRows.push(rowName);
@@ -82,12 +82,19 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
 
         // Add IP column
         const ipCell = document.createElement('td');
-        ipCell.textContent = rowObj.ip;
+        const ipText = document.createElement('span');
+        ipText.textContent = rowObj.ip;
+        const editButton = document.createElement('button');
+        editButton.textContent = '✏️';
+        editButton.style.marginLeft = '10px';
+        editButton.addEventListener('click', () => openModal(rowObj.ip, rowObj.name, password));
+        ipCell.appendChild(ipText);
+        ipCell.appendChild(editButton);
         row.appendChild(ipCell);
 
         // Add Alias column
         const aliasCell = document.createElement('td');
-        aliasCell.textContent = rowObj.rowName || '';
+        aliasCell.textContent = rowObj.name || '';
         row.appendChild(aliasCell);
 
         // Add checkboxes for other columns except the last
@@ -124,7 +131,7 @@ function fillRepeatOptions(options) {
     }
 
     const selectElement = document.getElementById('repeats_select');
-    console.log(selectElement);
+    console.log(options);
     removeOptions(selectElement);
 
     // Fill buttons

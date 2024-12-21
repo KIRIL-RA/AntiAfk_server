@@ -130,3 +130,23 @@ async function sendPushButton(buttonName, repeats, emitClients, password) {
         alert(e);
     }   
 } 
+
+async function setIpName(ip, name, password) {
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            name: name,
+            ip: ip
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/create_client`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+}
