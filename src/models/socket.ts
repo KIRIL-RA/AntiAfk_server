@@ -1,15 +1,18 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
 import { plainToInstance } from 'class-transformer';
-import { ActionDTO, ButtonActionTypes, ButtonsDTO, PresetDTO } from '../interfaces/preset';
+import { ActionDTO, ButtonActionTypes, ButtonsDTO, PresetDTO, SendButtonClickDTO } from '../interfaces/preset';
 import { getPresetById } from './preset'
 import { keys } from '../configs/config_loader'
+import { getClientByIp } from './client';
+import { ClientDTO } from '../interfaces/clients';
 
 // Object to store connected clients (clientID: socket object)
 interface ConnectedClients {
     [key: string]: any
 }
 let connectedClients: ConnectedClients = {};
+let connectedClientsDto : ClientDTO[] = [];
 
 // Socket init
 let clientIO: Server;
@@ -19,7 +22,7 @@ enum SocketRoom {
     SEND_COMMAND = 'command-cli'
 }
 
-const getCommand = (type: ButtonActionTypes, action: string) => `${type}:${action}`;
+const getCommand = (type: ButtonActionTypes, action: string, repeats = 0) => `${type}:${action}:${repeats}`;
 
 // Init web sockt
 export const initializeWebSocket = (server: HttpServer, clientPassword: string, frontEndPassword: string) => {
@@ -29,7 +32,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
         },
     });
 
-    clientIO.on('connection', (clientSocket) => {
+    clientIO.on('connection', async (clientSocket) => {
         const clientType = clientSocket.handshake.query?.type;
         const password = clientSocket.handshake.query?.password;
 
@@ -41,9 +44,19 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     clientSocket.disconnect();
                     return;
                 }
+
+                // Getting data bout client
                 console.log('Client connected: ', clientSocket.handshake.address);
                 connectedClients[clientSocket.handshake.address] = clientSocket;
-                clientIO.emit(SocketRoom.STATUSES, Object.keys(connectedClients));
+                const clientData = await getClientByIp(clientSocket.handshake.address);
+                const clientName:string = clientData != null ? clientData?.name : "";
+
+                // Forming dto
+                connectedClientsDto.push({
+                    ip: clientSocket.handshake.address,
+                    name: clientName
+                });
+                clientIO.emit(SocketRoom.STATUSES, JSON.stringify(connectedClientsDto));
                 break;
 
             // If we connect frontend
@@ -53,7 +66,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     return;
                 }
                 console.log('Front-end: ', clientSocket.handshake.address);
-                clientSocket.emit(SocketRoom.INIT_FRONT, Object.keys(connectedClients));
+                clientSocket.emit(SocketRoom.INIT_FRONT, JSON.stringify(connectedClientsDto));
                 break;
             // Default
             default:
@@ -64,13 +77,21 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
 
         // Handle client disconnection
         clientSocket.on('disconnect', () => {
+            // Searching client in connectedClient list
             const disconnectedID = Object.keys(connectedClients).find(
                 (id) => connectedClients[id] === clientSocket
             );
 
+            // If founded -> sending data about client disconnected
             if (disconnectedID) {
+                // Clear from list
                 delete connectedClients[disconnectedID];
-                clientIO.emit(SocketRoom.STATUSES, Object.keys(connectedClients));
+
+                // Clear from DTO list
+                connectedClientsDto.forEach((dto, i ) =>{
+                    if(dto.ip == disconnectedID) connectedClientsDto.splice(i, 1);
+                });
+                clientIO.emit(SocketRoom.STATUSES, JSON.stringify(connectedClientsDto));
             }
         });
     });
@@ -108,22 +129,47 @@ export async function sendAction(params: ActionDTO) {
         params.emitClients.forEach(client => {
             console.log(`${command} -> ${client}`);
             client = client.replace(' ', '');
-            
-            // Search client in list
-            const clientId = Object.keys(connectedClients).find(
-                (id) => id === client
-            );
 
-            // If client id founded
-            if (clientId) {
-                if (clientIO)
-                    clientIO.emit(SocketRoom.SEND_COMMAND, command);
-                else
-                    console.error('WebSocket server not initialized');
-            }
+            // Send command to client
+            sendDataOnSocketToClient(client, SocketRoom.SEND_COMMAND, command);
         });
     }
     catch (e) {
         console.log(e);
+    }
+}
+
+// Send buttron click with some repeats
+export async function sendButtonClick(params: SendButtonClickDTO){
+    // Forming string command to send it to client
+    const command = getCommand(ButtonActionTypes.press, params.action, params.repeatsCount);
+
+    try {
+        // Trying to send press button command
+        params.emitClients.forEach(client => {
+            console.log(`${command} -> ${client}`);
+            client = client.replace(' ', '');
+
+            // Send command to client
+            sendDataOnSocketToClient(client, SocketRoom.SEND_COMMAND, command);
+        })
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+async function sendDataOnSocketToClient(client:string, room:SocketRoom, command:string) {
+    // Search client in list
+    const clientId = Object.keys(connectedClients).find(
+        (id) => id === client
+    );
+
+    // If client id founded
+    if (clientId) {
+        if (clientIO)
+            clientIO.emit(SocketRoom.SEND_COMMAND, command);
+        else
+            console.error('WebSocket server not initialized');
     }
 }
