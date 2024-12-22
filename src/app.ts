@@ -14,6 +14,7 @@ import getClient from "./routes/client_handlers/get_client"
 
 import sendAction from "./routes/action_handlers/send_action"
 import sendButton from "./routes/action_handlers/send_button"
+import path from 'path';
 
 // Config server
 const clientPort = config.port;
@@ -25,7 +26,7 @@ initializeWebSocket(server, config.client_pass, config.frontend_pass);
 
 // Setting up routes
 app.use(express.json());
-app.use(express.static("src/public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(createPreset);
 app.use(getAllPresets);

@@ -1,10 +1,11 @@
 {
     "assets": [
         "node_modules/socket.io/client-dist/*.js",
-        "public/index/*.html",
-        "public/index/*.js",
+        "dist/public/**/*",
         "prisma/schema.prisma",
-        "node_modules/.prisma/**/*"
+        "node_modules/.prisma/**/*",
+        "node_modules/.prisma/client",
+        "node_modules/@prisma/client"
     ],
     "outputPath": "build"
 }

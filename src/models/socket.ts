@@ -22,7 +22,7 @@ enum SocketRoom {
     SEND_COMMAND = 'command-cli'
 }
 
-const getCommand = (type: ButtonActionTypes, action: string, repeats = 0) => `${type}:${action}:${repeats}`;
+const getCommand = (type: ButtonActionTypes, action: string, repeats = 0) => `${type}|||${action}|||${repeats}`;
 
 // Init web sockt
 export const initializeWebSocket = (server: HttpServer, clientPassword: string, frontEndPassword: string) => {
