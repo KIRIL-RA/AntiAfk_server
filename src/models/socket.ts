@@ -153,7 +153,7 @@ export async function sendAction(params: ActionDTO) {
 // Send buttron click with some repeats
 export async function sendButtonClick(params: SendButtonClickDTO){
     // Forming string command to send it to client
-    const command = getCommand(ButtonActionTypes.press, params.action, params.repeatsCount);
+    const command = getCommand(ButtonActionTypes.press, keys[params.action]?.label, params.repeatsCount);
 
     try {
         // Trying to send press button command
