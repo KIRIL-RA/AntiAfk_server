@@ -4,7 +4,6 @@
         "public/index/*.html",
         "public/index/*.js",
         "prisma/schema.prisma",
-        "prisma/local.db",
         "node_modules/.prisma/**/*"
     ],
     "outputPath": "build"
