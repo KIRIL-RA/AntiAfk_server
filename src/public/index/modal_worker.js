@@ -53,7 +53,9 @@ cancelButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', addRow);
 
-function sendPreset(password) {
+async function sendPreset(password) {
+    let keysIndex = 0;
+    let valuesIndex = 0;
 
     const formData = new FormData(presetForm);
     const name = formData.get('presetName');
@@ -68,8 +70,9 @@ function sendPreset(password) {
         const button = {
             name: commandName,
             type: actions[index],
-            action: actions[index] === 'open' ? values[index] : keys[index]
+            action: actions[index] === 'open' ? values[valuesIndex++] : keys[keysIndex++]
         };
+
         buttons.push(button);
     });
 
@@ -78,7 +81,7 @@ function sendPreset(password) {
         buttons: buttons
     };
 
-    createPrest(result.name, result.buttons, password).catch(e=>{alert(e)});
+    await createPrest(result.name, result.buttons, password).catch(e=>{alert(e)});
     modal.classList.remove('active');
 }
 

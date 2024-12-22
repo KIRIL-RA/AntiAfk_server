@@ -35,18 +35,19 @@ async function loginButton() {
         // Get keys
         const keysResp = await getKeys(password);
         keys = Object.keys(keysResp.data);
+        setKeyOptions(keys);
 
         ips = _ips;
         await createTable(buttonNames, ips, selectedPresed, password, activatePreset, keys);
 
         // Fill repeats
-        fillRepeatOptions(keys);
+        fillRepeatOptions(keyOptions);
     });
 
-    presetForm.addEventListener('submit', (e) => {
+    presetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        sendPreset(password);
-        presetsFill(password);
+        await sendPreset(password);
+        await presetsFill(password);
     });
 }
 
@@ -80,6 +81,9 @@ async function handleChangePreset(presetId, password) {
 
     selectedPresed = presetId;
     createTable(buttonNames, ips, selectedPresed, password, activatePreset);
+
+    // Fill repeats
+    fillRepeatOptions(keyOptions); 
 }
 
 function fillPresets(preset, password) {
@@ -106,8 +110,6 @@ function fillPresets(preset, password) {
         const selectedId = event.target.value;
         await handleChangePreset(selectedId, password);
 
-        // Fill repeats
-        await fillRepeatOptions(keys);
         console.log('Выбранный ID пресета:', selectedId);
     });
 
