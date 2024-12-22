@@ -27,6 +27,8 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
         button.addEventListener('click', () => {
             const activeRows = [];
             table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+                if(rowIndex == 0) return;
+
                 const checkbox = row.cells[colIndex + 2].querySelector('input[type="checkbox"]');
                 const rowName = row.cells[0]?.querySelectorAll('span')[0].innerHTML;
                 console.log(rowName);
@@ -55,6 +57,8 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     button.addEventListener('click', () => {
         const activeRows = [];
         table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+            if(rowIndex == 0) return;
+            
             const checkbox = row.cells[columns].querySelector('input[type="checkbox"]');
             const rowName = row.cells[0]?.querySelectorAll('span')[0].innerHTML;
             if (checkbox && checkbox.checked) {
@@ -74,8 +78,51 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
+    // Add control row for checkboxes
+    const controlRow = document.createElement('tr');
+    const controlCell = document.createElement('td');
+    controlCell.textContent = 'Control';
+    controlRow.appendChild(controlCell);
+
+    const aliasCell = document.createElement('td');
+    aliasCell.textContent = '';
+    controlRow.appendChild(aliasCell);
+
+    for (let i = 0; i < columns - 2; i++) {
+        const cell = document.createElement('td');
+        const columnCheckbox = document.createElement('input');
+        columnCheckbox.type = 'checkbox';
+        columnCheckbox.addEventListener('change', (e) => {
+            const checked = e.target.checked;
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const checkbox = row.cells[i + 2].querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = checked;
+                }
+            });
+        });
+        cell.appendChild(columnCheckbox);
+        controlRow.appendChild(cell);
+    }
+
+    const lastControlCell = document.createElement('td');
+    const lastControlCheckbox = document.createElement('input');
+    lastControlCheckbox.type = 'checkbox';
+    lastControlCheckbox.addEventListener('change', (e) => {
+        const checked = e.target.checked;
+        table.querySelectorAll('tbody tr').forEach(row => {
+            const checkbox = row.cells[columns].querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.checked = checked;
+            }
+        });
+    });
+    lastControlCell.appendChild(lastControlCheckbox);
+    controlRow.appendChild(lastControlCell);
+
     // Create the body rows
     const tbody = document.createElement('tbody');
+    tbody.appendChild(controlRow);
 
     rows.forEach(rowObj => {
         const row = document.createElement('tr');
@@ -120,6 +167,7 @@ function createTable(buttons, rows, prestId, password, sendActionFunction) {
 
     // Append the table to the container
     tableContainer.appendChild(table);
+    applySort();
 }
 
 function fillRepeatOptions(options) {
@@ -146,4 +194,43 @@ function fillRepeatOptions(options) {
 function clearTable() {
     const table = document.getElementById('ipTable');
     table?.remove();
+}
+
+function sortIPs(rows) {
+    function ipToSortable(ip) {
+        const expanded = ip.replace(/::/g, ':'.repeat(9 - ip.split(':').length));
+        const parts = expanded.split(':');
+        if (parts.length === 1) {
+            return parts[0].split('.').map(octet => parseInt(octet, 10) || 0);
+        } else {
+            return parts.map(part => parseInt(part || '0', 16));
+        }
+    }
+
+    rows.sort((a, b) => {
+        const aSortable = ipToSortable(a.ip);
+        const bSortable = ipToSortable(b.ip);
+
+        for (let i = 0; i < Math.max(aSortable.length, bSortable.length); i++) {
+            const diff = (aSortable[i] || 0) - (bSortable[i] || 0);
+            if (diff !== 0) {
+                return diff;
+            }
+        }
+        return 0;
+    });
+}
+
+function applySort() {
+    const tbody = document.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
+
+    const rowObjects = rows.map(row => ({
+        element: row,
+        ip: row.cells[0].textContent.trim()
+    }));
+
+    sortIPs(rowObjects);
+
+    rowObjects.forEach(rowObj => tbody.appendChild(rowObj.element));
 }
