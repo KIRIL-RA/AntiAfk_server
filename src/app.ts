@@ -1,7 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
 import http, { createServer } from 'http';
 import { initializeWebSocket } from "./models/socket";
+import { config } from './configs/config_loader'
 import express  from 'express';
 
 // Import routes
@@ -17,12 +16,12 @@ import sendAction from "./routes/action_handlers/send_action"
 import sendButton from "./routes/action_handlers/send_button"
 
 // Config server
-const clientPort = 3000;
+const clientPort = config.port;
 const app = express();
 const server = createServer(app);
 
 // Setting up server
-initializeWebSocket(server, 'passwd', process.env.GET_TOKEN || "passwd");
+initializeWebSocket(server, config.client_pass, config.frontend_pass);
 
 // Setting up routes
 app.use(express.json());
