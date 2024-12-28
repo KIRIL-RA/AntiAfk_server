@@ -178,8 +178,10 @@ async function sendDataOnSocketToClient(client:string, room:SocketRoom, command:
 
     // If client id founded
     if (clientId) {
-        if (clientIO)
-            clientIO.emit(SocketRoom.SEND_COMMAND, command);
+        const clientSocket = connectedClients[clientId];
+
+        if (clientSocket)
+            clientSocket.emit(SocketRoom.SEND_COMMAND, command);
         else
             console.error('WebSocket server not initialized');
     }

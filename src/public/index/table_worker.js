@@ -196,28 +196,13 @@ function clearTable() {
     table?.remove();
 }
 
-function sortIPs(rows) {
-    function ipToSortable(ip) {
-        const expanded = ip.replace(/::/g, ':'.repeat(9 - ip.split(':').length));
-        const parts = expanded.split(':');
-        if (parts.length === 1) {
-            return parts[0].split('.').map(octet => parseInt(octet, 10) || 0);
-        } else {
-            return parts.map(part => parseInt(part || '0', 16));
-        }
-    }
-
-    rows.sort((a, b) => {
-        const aSortable = ipToSortable(a.ip);
-        const bSortable = ipToSortable(b.ip);
-
-        for (let i = 0; i < Math.max(aSortable.length, bSortable.length); i++) {
-            const diff = (aSortable[i] || 0) - (bSortable[i] || 0);
-            if (diff !== 0) {
-                return diff;
-            }
-        }
-        return 0;
+function sortDescendingByIp(arr) {
+    return arr.sort((a, b) => {
+        const ipA = a.ip.split(' ').pop(); // Извлекаем IPv4
+        const ipB = b.ip.split(' ').pop();
+        const numA = ipA.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0); // Преобразуем в число
+        const numB = ipB.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0);
+        return numB - numA; // Сортировка по убыванию
     });
 }
 
@@ -230,7 +215,7 @@ function applySort() {
         ip: row.cells[0].textContent.trim()
     }));
 
-    sortIPs(rowObjects);
+    const sortedIps = sortDescendingByIp(rowObjects);
 
-    rowObjects.forEach(rowObj => tbody.appendChild(rowObj.element));
+    sortedIps.forEach(rowObj => tbody.appendChild(rowObj.element));
 }
