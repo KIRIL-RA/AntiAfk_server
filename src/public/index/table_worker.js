@@ -198,8 +198,8 @@ function clearTable() {
 
 function sortDescendingByIp(arr) {
     return arr.sort((a, b) => {
-        const ipA = a.ip.split(' ').pop(); // Извлекаем IPv4
-        const ipB = b.ip.split(' ').pop();
+        const ipA = a.ip.split('f:').pop(); // Извлекаем IPv4
+        const ipB = b.ip.split('f:').pop();
         const numA = ipA.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0); // Преобразуем в число
         const numB = ipB.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0);
         return numB - numA; // Сортировка по убыванию
