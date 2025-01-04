@@ -1,92 +1,4 @@
 {
-    "Enter": {
-        "label": "enter",
-        "code": "@10"
-    },
-    "Backspace": {
-        "label": "backspace",
-        "code": "@8"
-    },
-    "Tab": {
-        "label": "tab",
-        "code": "@9"
-    },
-    "Shift": {
-        "label": "shift",
-        "code": "@16"
-    },
-    "Control": {
-        "label": "control",
-        "code": "@17"
-    },
-    "Alt": {
-        "label": "alt",
-        "code": "@18"
-    },
-    "Pause": {
-        "label": "pause",
-        "code": "@19"
-    },
-    "Caps Lock": {
-        "label": "capslock",
-        "code": "@20"
-    },
-    "Esc": {
-        "label": "escape",
-        "code": "@27"
-    },
-    "Space": {
-        "label": "space",
-        "code": "@32"
-    },
-    "Page Up": {
-        "label": "pageup",
-        "code": "@33"
-    },
-    "Page Down": {
-        "label": "pagedown",
-        "code": "@34"
-    },
-    "End": {
-        "label": "end",
-        "code": "@35"
-    },
-    "Home": {
-        "label": "home",
-        "code": "@36"
-    },
-    "Left Arrow": {
-        "label": "leftarrow",
-        "code": "@37"
-    },
-    "Up Arrow": {
-        "label": "uparrow",
-        "code": "@38"
-    },
-    "Right Arrow": {
-        "label": "rightarrow",
-        "code": "@39"
-    },
-    "Down Arrow": {
-        "label": "downarrow",
-        "code": "@40"
-    },
-    "Comma": {
-        "label": "comma",
-        "code": "@44"
-    },
-    "Minus": {
-        "label": "minus",
-        "code": "@45"
-    },
-    "Period": {
-        "label": "period",
-        "code": "@46"
-    },
-    "Slash": {
-        "label": "slash",
-        "code": "@47"
-    },
     "0": {
         "label": "0",
         "code": "@48"
@@ -239,81 +151,57 @@
         "label": "z",
         "code": "@90"
     },
-    "Open Bracket": {
-        "label": "openbracket",
-        "code": "@91"
+    "Enter": {
+        "label": "enter",
+        "code": "@10"
     },
-    "Numpad 0": {
-        "label": "numpad0",
-        "code": "@96"
-    },
-    "Numpad 1": {
-        "label": "numpad1",
-        "code": "@97"
-    },
-    "Numpad 2": {
-        "label": "numpad2",
-        "code": "@98"
-    },
-    "Numpad 3": {
-        "label": "numpad3",
-        "code": "@99"
-    },
-    "Numpad 4": {
-        "label": "numpad4",
-        "code": "@100"
-    },
-    "Numpad 5": {
-        "label": "numpad5",
-        "code": "@101"
-    },
-    "Numpad 6": {
-        "label": "numpad6",
-        "code": "@102"
-    },
-    "Numpad 7": {
-        "label": "numpad7",
-        "code": "@103"
-    },
-    "Numpad 8": {
-        "label": "numpad8",
-        "code": "@104"
-    },
-    "Numpad 9": {
-        "label": "numpad9",
-        "code": "@105"
-    },
-    "Multiply": {
-        "label": "multiply",
-        "code": "@106"
-    },
-    "Add": {
-        "label": "add",
-        "code": "@107"
-    },
-    "Subtract": {
-        "label": "subtract",
-        "code": "@109"
-    },
-    "Decimal": {
-        "label": "decimal",
-        "code": "@110"
-    },
-    "Divide": {
-        "label": "divide",
-        "code": "@111"
+    "Backspace": {
+        "label": "backspace",
+        "code": "@8"
     },
     "Delete": {
         "label": "delete",
         "code": "@127"
     },
-    "Num Lock": {
-        "label": "numlock",
-        "code": "@144"
+    "Tab": {
+        "label": "tab",
+        "code": "@9"
     },
-    "Scroll Lock": {
-        "label": "scrolllock",
-        "code": "@145"
+    "Esc": {
+        "label": "escape",
+        "code": "@27"
+    },
+    "Left Arrow": {
+        "label": "left",
+        "code": "@37"
+    },
+    "Up Arrow": {
+        "label": "up",
+        "code": "@38"
+    },
+    "Right Arrow": {
+        "label": "right",
+        "code": "@39"
+    },
+    "Down Arrow": {
+        "label": "down",
+        "code": "@40"
+    },
+    "Home": {
+        "label": "home",
+        "code": "@36"
+    },
+    "End": {
+        "label": "end",
+        "code": "@35"
+    },
+    "Page Up": {
+        "label": "pageup",
+        "code": "@33"
+    },
+    "Page Down": {
+        "label": "pagedown",
+        "code": "@34"
     },
     "F1": {
         "label": "f1",
@@ -362,4 +250,61 @@
     "F12": {
         "label": "f12",
         "code": "@123"
-    }}
+    },
+    "Alt": {
+        "label": "alt",
+        "code": "@18"
+    },
+    "Control": {
+        "label": "control",
+        "code": "@17"
+    },
+    "Shift": {
+        "label": "shift",
+        "code": "@16"
+    },
+    "Space": {
+        "label": "space",
+        "code": "@32"
+    },
+    "Numpad 0": {
+        "label": "numpad_0",
+        "code": "@96"
+    },
+    "Numpad 1": {
+        "label": "numpad_1",
+        "code": "@97"
+    },
+    "Numpad 2": {
+        "label": "numpad_2",
+        "code": "@98"
+    },
+    "Numpad 3": {
+        "label": "numpad_3",
+        "code": "@99"
+    },
+    "Numpad 4": {
+        "label": "numpad_4",
+        "code": "@100"
+    },
+    "Numpad 5": {
+        "label": "numpad_5",
+        "code": "@101"
+    },
+    "Numpad 6": {
+        "label": "numpad_6",
+        "code": "@102"
+    },
+    "Numpad 7": {
+        "label": "numpad_7",
+        "code": "@103"
+    },
+    "Numpad 8": {
+        "label": "numpad_8",
+        "code": "@104"
+    },
+    "Numpad 9": {
+        "label": "numpad_9",
+        "code": "@105"
+    }
+}
