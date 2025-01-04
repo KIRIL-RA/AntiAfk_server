@@ -1,12 +1,12 @@
 const path = require('path');
 const fs = require('fs');
 import { ConfigI } from '../interfaces/config';
-const isDev = false;
+const isDev = true;
 
 const _config = isDev ? JSON.parse(fs.readFileSync(path.join(path.dirname(__dirname), './configs/config.json'))) : JSON.parse(fs.readFileSync(path.join(path.dirname(process.execPath), './configs/config.json')));
 const keys = isDev ? JSON.parse(fs.readFileSync(path.join(path.dirname(__dirname), './configs/keys.json'))) : JSON.parse(fs.readFileSync(path.join(path.dirname(process.execPath), './configs/keys.json')));
 const dbUrl = isDev ? 'file:./database.db' : `file:${path.join(path.dirname(process.execPath), 'database.db')}`
-const publicPath = isDev ? path.join(__dirname, '../src/public') : path.join(path.dirname(process.execPath), 'public');
+const publicPath = isDev ? path.join(__dirname, '../../src/public') : path.join(path.dirname(process.execPath), 'public');
 
 const config: ConfigI = {
     dbUrl: dbUrl,
