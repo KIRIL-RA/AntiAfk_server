@@ -6,5 +6,5 @@
 3. Выполнить npm i pkg -g
 4. npx prisma init  
 5. Выполнить npm run build
-6. Выполнить pkg dist/server.js -c pkg.json
+6. Выполнить pkg dist/app.js -c pkg.json
 7. Собранные программы будут в папке build
