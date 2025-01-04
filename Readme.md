@@ -4,6 +4,7 @@
 1. Установить nodejs v18.5.0
 2. Выполнить npm i
 3. Выполнить npm i pkg -g
-4. Выполнить npm run build
-5. Выполнить pkg dist/server.js -c pkg.json
-6. Собранные программы будут в папке build
+4. npx prisma init  
+5. Выполнить npm run build
+6. Выполнить pkg dist/server.js -c pkg.json
+7. Собранные программы будут в папке build
