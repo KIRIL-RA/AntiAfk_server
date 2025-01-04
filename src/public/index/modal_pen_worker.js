@@ -1,4 +1,5 @@
 function openModal(ip, alias, password) {
+    
     const modal = document.getElementById('modal-pen');
     const overlay = document.getElementById('modal-overlay');
     const modalTitle = document.getElementById('modal-title');
@@ -10,8 +11,7 @@ function openModal(ip, alias, password) {
     modal.style.display = 'block';
     overlay.style.display = 'block';
 
-    document.getElementById('modal-cancel').addEventListener('click', closeModal);
-    document.getElementById('modal-apply').addEventListener('click', () => {
+    const updateName = () =>{
         const rows = document.querySelectorAll('tbody tr');
         const newAlias = modalInput.value;
 
@@ -21,12 +21,18 @@ function openModal(ip, alias, password) {
             }
         });
 
+        console.log(ip);
         setIpName(ip, newAlias, password);
+        document.getElementById('modal-apply').removeEventListener('click', updateName, true);
         closeModal();
-    });
+    }
+
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-apply').addEventListener('click', updateName, true);
 }
 
 function closeModal() {
+    console.log("click");
     const modal = document.getElementById('modal-pen');
     const overlay = document.getElementById('modal-overlay');
 
