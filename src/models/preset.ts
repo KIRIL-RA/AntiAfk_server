@@ -1,5 +1,5 @@
 import prisma from './prisma';
-import { ButtonActionTypes, PresetDTO } from '../interfaces/preset'
+import { ButtonActionTypes, ButtonsDTO, PresetDTO, ProcessPresetDto } from '../interfaces/preset'
 
 /**
  * Create new preset, and save it into database
@@ -33,16 +33,13 @@ async function GetPresets(): Promise<object> {
  */
 async function getPresetById(presetId: string): Promise<PresetDTO | {}> {
     // Function for getting button action
-    const getButtonAction = function (type: String): ButtonActionTypes {
-        switch (type) {
-            case ButtonActionTypes.open:
-                return ButtonActionTypes.open;
-            case ButtonActionTypes.press:
-                return ButtonActionTypes.press;
-            default:
-                return ButtonActionTypes.press;
+    // It neede because we need to check if action is valid
+    const getButtonAction = (value: string): string => {
+        if (Object.values(ButtonActionTypes).includes(value as ButtonActionTypes)) {
+            return value;
         }
-    };
+        return ButtonActionTypes.open;
+    }
 
     try {
         // Поиск пресета с вложенными кнопками
