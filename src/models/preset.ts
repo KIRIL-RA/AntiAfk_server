@@ -21,10 +21,33 @@ async function CreatePreset(preset: PresetDTO) {
     });
 }
 
-async function GetPresets(): Promise<object> {
+/**
+ * Get all saved presets
+ * @param needExtended If true - will return not only names and is, it will include buttons
+ * @returns 
+ */
+async function GetPresets(needExtended: boolean): Promise<object> {
     const presets = await prisma.preset.findMany();
-    return presets;
+
+    // If we don't need extended data
+    // we can just return recieved value
+    if (!needExtended)
+        return presets;
+    
+    // If we need extended data
+    // Search info about each presets
+    else {
+        let extendedPresets = []
+        for(let i = 0; i < presets?.length; i++){
+            const presetData = await getPresetById(presets[i].id);
+            extendedPresets.push({...presetData, ...presets[i]});
+        }
+
+        return extendedPresets;
+    }
 }
+
+
 
 /**
  * Функция для поиска пресета по id
@@ -73,5 +96,32 @@ async function getPresetById(presetId: string): Promise<PresetDTO | {}> {
     }
 }
 
+/**
+ * Function to delete a preset and all linked buttons
+ * @param {string} presetId - ID of the preset to delete
+ * @returns {Promise<void>}
+ */
+async function deletePreset(presetId: string): Promise<void> {
+    try {
+        // Delete linked buttons first
+        await prisma.button.deleteMany({
+            where: {
+                preset_id: presetId
+            }
+        });
 
-export { CreatePreset, GetPresets, getPresetById };
+        // Delete the preset
+        await prisma.preset.delete({
+            where: {
+                id: presetId
+            }
+        });
+
+        console.log(`Preset with ID ${presetId} and its linked buttons have been deleted.`);
+    } catch (error) {
+        console.error(`Error deleting preset with ID ${presetId}:`, error);
+        throw error;
+    }
+}
+
+export { CreatePreset, GetPresets, getPresetById, deletePreset };
