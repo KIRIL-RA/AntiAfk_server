@@ -1,5 +1,8 @@
 
 function fillPresetsTable(presets, options, password) {
+    // Find the maximum number of buttons across all presets
+    const maxButtons = Math.max(...presets.map(preset => preset.buttons.length));
+
     // Get a reference to the container where the table will be inserted
     const container = document.getElementById('presets-table');
 
@@ -8,8 +11,7 @@ function fillPresetsTable(presets, options, password) {
 
     // Create the table element
     const table = document.createElement('table');
-    table.style.borderCollapse = 'collapse';
-    table.style.width = '100%';
+    table.id = "presets-table-table";
 
     // Create the first row (header row)
     const headerRow = document.createElement('tr');
@@ -17,8 +19,6 @@ function fillPresetsTable(presets, options, password) {
     // Add "Repats" cell
     const repatsCell = document.createElement('td');
     repatsCell.textContent = 'Repats';
-    repatsCell.style.border = '1px solid black';
-    repatsCell.style.padding = '8px';
     headerRow.appendChild(repatsCell);
 
     // Add number input cell
@@ -26,8 +26,6 @@ function fillPresetsTable(presets, options, password) {
     const numberInput = document.createElement('input');
     numberInput.type = 'number';
     numberInputCell.appendChild(numberInput);
-    numberInputCell.style.border = '1px solid black';
-    numberInputCell.style.padding = '8px';
     headerRow.appendChild(numberInputCell);
 
     // Add dropdown input cell
@@ -35,8 +33,6 @@ function fillPresetsTable(presets, options, password) {
     const dropdown = document.createElement('select');
     dropdown.id = 'repeats-select';
     dropdownCell.appendChild(dropdown);
-    dropdownCell.style.border = '1px solid black';
-    dropdownCell.style.padding = '8px';
     headerRow.appendChild(dropdownCell);
 
     // Add "Go" button cell
@@ -44,8 +40,6 @@ function fillPresetsTable(presets, options, password) {
     const goButton = document.createElement('button');
     goButton.textContent = 'Go';
     goButtonCell.appendChild(goButton);
-    goButtonCell.style.border = '1px solid black';
-    goButtonCell.style.padding = '8px';
     headerRow.appendChild(goButtonCell);
 
     // Add event listener to "Go" button
@@ -58,10 +52,13 @@ function fillPresetsTable(presets, options, password) {
         console.log(`Repeats count: ${repeatsCount}, Selected action: ${selectedAction}`);
     });
 
-    table.appendChild(headerRow);
+    // Fill the remaining cells with empty cells if needed
+    for (let i = 2 + 1; i < maxButtons + 1; i++) {
+        const emptyCell = document.createElement('td');
+        headerRow.appendChild(emptyCell);
+    }
 
-    // Find the maximum number of buttons across all presets
-    const maxButtons = Math.max(...presets.map(preset => preset.buttons.length));
+    table.appendChild(headerRow);
 
     // Populate the table with data rows
     presets.forEach(preset => {
@@ -70,9 +67,17 @@ function fillPresetsTable(presets, options, password) {
         // Add name cell
         const nameCell = document.createElement('td');
         nameCell.textContent = preset.name;
-        nameCell.style.border = '1px solid black';
-        nameCell.style.padding = '8px';
         row.appendChild(nameCell);
+
+        // Add "Delete" button as the last button
+        const deleteButtonCell = document.createElement('td');
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            console.log(`Preset ID: ${preset.id}, Button: Delete`);
+        });
+        deleteButtonCell.appendChild(deleteButton);
+        row.appendChild(deleteButtonCell);
 
         // Add buttons for each button name in the preset
         preset.buttons.forEach(button_ => {
@@ -86,28 +91,12 @@ function fillPresetsTable(presets, options, password) {
                 activatePreset(preset.id, buttonName, checkedIps, password);
             });
             buttonCell.appendChild(button);
-            buttonCell.style.border = '1px solid black';
-            buttonCell.style.padding = '8px';
             row.appendChild(buttonCell);
         });
-
-        // Add "Delete" button as the last button
-        const deleteButtonCell = document.createElement('td');
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => {
-            console.log(`Preset ID: ${preset.id}, Button: Delete`);
-        });
-        deleteButtonCell.appendChild(deleteButton);
-        deleteButtonCell.style.border = '1px solid black';
-        deleteButtonCell.style.padding = '8px';
-        row.appendChild(deleteButtonCell);
 
         // Fill the remaining cells with empty cells if needed
         for (let i = preset.buttons.length + 1; i < maxButtons + 1; i++) {
             const emptyCell = document.createElement('td');
-            emptyCell.style.border = '1px solid black';
-            emptyCell.style.padding = '8px';
             row.appendChild(emptyCell);
         }
 
@@ -138,4 +127,9 @@ function fillRepeatOptions(options) {
         option.textContent = optionEl;
         selectElement.appendChild(option);
     });
+}
+
+function clearProcessTable() {
+    const table = document.getElementById('presets-table-table');
+    table?.remove();
 }

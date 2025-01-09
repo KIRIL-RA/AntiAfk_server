@@ -6,13 +6,14 @@ let keys = '';
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
+const modalButtons = document.getElementById('preset-buttons-blocks');
 const openModalButton = document.getElementById('openModalButton');
 const openProcessModalButton = document.getElementById('openProcessModalButton');
 
 firstInit();
 
 async function firstInit() {
-    openModalButton.style.visibility = "hidden";
+    modalButtons.style.visibility = "hidden";
     connectButton.addEventListener('click', () => loginButton());
 }
 
@@ -20,7 +21,7 @@ async function testInit() {
     const testIps = [
         { ip: "192.168.1.1", name: "name" }
     ];
-    openModalButton.style.visibility = "hidden";
+    modalButtons.style.visibility = "hidden";
 
     fillIpsTable(testIps, 'token', (ips_) => {
         console.log(ips_);
@@ -106,8 +107,9 @@ async function presetsFill(password) {
 
 function clearConnectionData(message) {
     message = message || "Connection failed";
-
+    
     setHeaderButtons(false);
+    clearProcessTable();
     clearTable();
     alert(message);
 }
@@ -116,5 +118,5 @@ function setHeaderButtons(state) {
     passwordField.disabled = state;
     connectButton.disabled = state;
 
-    openModalButton.style.visibility = state ? "visible" : "hidden";
+    modalButtons.style.visibility = state ? "visible" : "hidden";
 }

@@ -29,7 +29,7 @@ header {
     width: 100%;
 }
 
-.login-input {
+.login-input, #preset-buttons-blocks {
     padding-top: 5px;
     padding-left: 5px;
 }
@@ -74,7 +74,7 @@ td:last-child {
     width: 100px;
 }
 
-th:nth-last-child(2), td:nth-last-child(2) {
+#ipTable th:nth-last-child(2), #ipTable td:nth-last-child(2) {
     border-right: 2px solid #000;
 }
 
@@ -87,16 +87,13 @@ select{
     flex-direction: row;
     height: 500px;
     width: 100%;
-    background-color: blue;
 }
 
 #presets-table{
-    background-color: red;
     width: 100%;
 }
 
 #ips-table{
-    background-color: green;
     width: 100%;
 }
 
