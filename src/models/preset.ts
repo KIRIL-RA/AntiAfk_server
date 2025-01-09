@@ -21,9 +21,30 @@ async function CreatePreset(preset: PresetDTO) {
     });
 }
 
-async function GetPresets(): Promise<object> {
+/**
+ * Get all saved presets
+ * @param needExtended If true - will return not only names and is, it will include buttons
+ * @returns 
+ */
+async function GetPresets(needExtended: boolean): Promise<object> {
     const presets = await prisma.preset.findMany();
-    return presets;
+
+    // If we don't need extended data
+    // we can just return recieved value
+    if (!needExtended)
+        return presets;
+    
+    // If we need extended data
+    // Search info about each presets
+    else {
+        let extendedPresets = []
+        for(let i = 0; i < presets?.length; i++){
+            const presetData = await getPresetById(presets[i].id);
+            extendedPresets.push({...presetData, ...presets[i]});
+        }
+
+        return extendedPresets;
+    }
 }
 
 /**

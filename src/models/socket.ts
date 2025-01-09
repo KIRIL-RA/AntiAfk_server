@@ -53,7 +53,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
 
                 // Forming dto
                 connectedClientsDto.push({
-                    ip: clientSocket.handshake.address,
+                    ip: clientSocket.handshake.address.replace(/[^0-9.]/g, ''),
                     name: clientName
                 });
                 clientIO.emit(SocketRoom.STATUSES, connectedClientsDto);
