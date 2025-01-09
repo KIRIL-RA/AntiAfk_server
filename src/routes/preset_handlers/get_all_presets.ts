@@ -11,7 +11,7 @@ addPresetRoute.get('/get_all_presets', [
 
         // Getting presets
         try{
-            const presets = await GetPresets();
+            const presets = await GetPresets(true);
             res.status(200).json({ status: 'ok', data: presets});
         }
         // Catching errors

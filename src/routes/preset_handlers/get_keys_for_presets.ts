@@ -12,7 +12,6 @@ addPresetRoute.get('/get_keys', [
 
         // Getting presets
         try{
-            const presets = await GetPresets();
             res.status(200).json({ status: 'ok', data: keys});
         }
         // Catching errors

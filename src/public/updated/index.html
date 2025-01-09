@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnitAfk</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="modal.css" />
+    <link rel="stylesheet" href="modal_pen.css" />
+</head>
+
+<body>
+    <header>
+        <div class="login-input">
+            <input id="password-field" type="password">
+            <button id="loginB">Log In</button>
+        </div>
+        <div class="preset_select" id="preset_select">
+            <label for="presetSelect">Выберите пресет:</label>
+            <select id="presetSelect"></select>
+        </div>
+        <button id="openModalButton">Open Create Preset</button>
+    </header>
+    <div id="control-tables">
+        <div id="presets-table">
+
+        </div>
+        <div id="ips-table">
+            
+        </div>
+    </div>
+    <div id="table-container"></div>
+    <div class="modal" id="modal">
+        <div class="container">
+            <h2>Create Preset</h2>
+            <form id="presetForm">
+                <div class="row">
+                    <input type="text" name="presetName" placeholder="Preset name" required>
+                </div>
+                <div id="fieldsContainer">
+                    <div class="row">
+                        <input type="text" name="commandName[]" placeholder="Command name">
+                        <select class="actionSelector" name="action[]">
+                            <option value="press">Press</option>
+                            <option value="open">Open</option>
+                        </select>
+                        <select name="key[]">
+                            <option value="Enter">Enter</option>
+                            <option value="Space">Space</option>
+                            <option value="Esc">Esc</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <input type="text" name="commandName[]" placeholder="Command name">
+                        <select class="actionSelector" name="action[]">
+                            <option value="press">Press</option>
+                            <option value="open">Open</option>
+                        </select>
+                        <select name="key[]">
+                            <option value="Enter">Enter</option>
+                            <option value="Space">Space</option>
+                            <option value="Esc">Esc</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="addButton">Add</button>
+                <div class="buttons">
+                    <button type="button" id="cancelButton">Cancel</button>
+                    <button type="submit" id="applyButton">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="modal-pen" class="modal-pen">
+        <h2 id="modal-title">Change name for</h2>
+        <input id="modal-input" type="text" />
+        <div class="modal-buttons">
+            <button id="modal-cancel">Cancel</button>
+            <button id="modal-apply">Apply</button>
+        </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="table_worker.js"></script>
+<script src="preset_worker.js"></script>
+<script src="socket_worker.js"></script>
+<script src="modal_pen_worker.js"></script>
+<script src="modal_worker.js"></script>
+<script src="presets_table_worker.js"></script>
+<script src="script.js"></script> 
+
+</html>
