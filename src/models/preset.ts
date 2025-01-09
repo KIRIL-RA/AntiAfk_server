@@ -47,6 +47,8 @@ async function GetPresets(needExtended: boolean): Promise<object> {
     }
 }
 
+
+
 /**
  * Функция для поиска пресета по id
  * @param {string} presetId - ID пресета
@@ -94,5 +96,32 @@ async function getPresetById(presetId: string): Promise<PresetDTO | {}> {
     }
 }
 
+/**
+ * Function to delete a preset and all linked buttons
+ * @param {string} presetId - ID of the preset to delete
+ * @returns {Promise<void>}
+ */
+async function deletePreset(presetId: string): Promise<void> {
+    try {
+        // Delete linked buttons first
+        await prisma.button.deleteMany({
+            where: {
+                preset_id: presetId
+            }
+        });
 
-export { CreatePreset, GetPresets, getPresetById };
+        // Delete the preset
+        await prisma.preset.delete({
+            where: {
+                id: presetId
+            }
+        });
+
+        console.log(`Preset with ID ${presetId} and its linked buttons have been deleted.`);
+    } catch (error) {
+        console.error(`Error deleting preset with ID ${presetId}:`, error);
+        throw error;
+    }
+}
+
+export { CreatePreset, GetPresets, getPresetById, deletePreset };

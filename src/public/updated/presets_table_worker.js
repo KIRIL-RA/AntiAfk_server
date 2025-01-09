@@ -1,5 +1,5 @@
 
-function fillPresetsTable(presets, options, password) {
+function fillPresetsTable(presets, options, password, deleteCallback) {
     // Find the maximum number of buttons across all presets
     const maxButtons = Math.max(...presets.map(preset => preset.buttons.length));
 
@@ -73,7 +73,11 @@ function fillPresetsTable(presets, options, password) {
         const deleteButtonCell = document.createElement('td');
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => {
+        deleteButton.addEventListener('click', async () => {
+            if(confirm(`Вы правда хотите удалить пресет ${preset?.name}`)){
+                await deletePreset(preset?.id, password);
+                await deleteCallback(password);
+            }
             console.log(`Preset ID: ${preset.id}, Button: Delete`);
         });
         deleteButtonCell.appendChild(deleteButton);

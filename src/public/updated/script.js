@@ -102,7 +102,7 @@ async function presetsFill(password) {
     const keys = Object.keys(keysResp.data);
 
     console.log(preset);
-    fillPresetsTable(preset.data, keys, password);
+    fillPresetsTable(preset.data, keys, password, presetsFill);
 }
 
 function clearConnectionData(message) {
