@@ -12,7 +12,7 @@ interface ConnectedClients {
     [key: string]: any
 }
 let connectedClients: ConnectedClients = {};
-let connectedClientsDto : ClientDTO[] = [];
+let connectedClientsDto: ClientDTO[] = [];
 
 // Socket init
 let clientIO: Server;
@@ -22,7 +22,7 @@ enum SocketRoom {
     SEND_COMMAND = 'command-cli'
 }
 
-const getCommand = (type: ButtonActionTypes, action: string, repeats = 0) => `${type}|||${action}|||${repeats}`;
+const getCommand = (type: ButtonActionTypes, action: string, additionalParams: number | string = 0) => `${type}|||${action}|||${additionalParams}`;
 
 // Init web sockt
 export const initializeWebSocket = (server: HttpServer, clientPassword: string, frontEndPassword: string) => {
@@ -49,7 +49,7 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                 console.log('Client connected: ', clientSocket.handshake.address);
                 connectedClients[clientSocket.handshake.address] = clientSocket;
                 const clientData = await getClientByIp(clientSocket.handshake.address);
-                const clientName:string = clientData != null ? clientData?.name : "";
+                const clientName: string = clientData != null ? clientData?.name : "";
 
                 // Forming dto
                 connectedClientsDto.push({
@@ -67,10 +67,10 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                 }
 
                 // Updating names
-                for(let connectedClientDtoI = 0; connectedClientDtoI < connectedClientsDto.length; connectedClientDtoI++){
+                for (let connectedClientDtoI = 0; connectedClientDtoI < connectedClientsDto.length; connectedClientDtoI++) {
                     // Getting data from db
                     const clientData = await getClientByIp(connectedClientsDto[connectedClientDtoI].ip);
-                    const clientName:string = clientData != null ? clientData?.name : "";
+                    const clientName: string = clientData != null ? clientData?.name : "";
 
                     connectedClientsDto[connectedClientDtoI].name = clientName;
                 }
@@ -99,8 +99,8 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                 delete connectedClients[disconnectedID];
 
                 // Clear from DTO list
-                connectedClientsDto.forEach((dto, i ) =>{
-                    if(dto.ip == disconnectedID) connectedClientsDto.splice(i, 1);
+                connectedClientsDto.forEach((dto, i) => {
+                    if (dto.ip == disconnectedID) connectedClientsDto.splice(i, 1);
                 });
                 clientIO.emit(SocketRoom.STATUSES, connectedClientsDto);
             }
@@ -132,6 +132,12 @@ export async function sendAction(params: ActionDTO) {
             case ButtonActionTypes.open:
                 command = getCommand(button.type, button.action);
                 break;
+            case ButtonActionTypes.start:
+                command = getCommand(button.type, params.presetId, button.action);
+                break;
+            case ButtonActionTypes.stop:
+                command = getCommand(button.type, params.presetId, button.action);
+                break;
             default:
                 return;
         }
@@ -151,7 +157,7 @@ export async function sendAction(params: ActionDTO) {
 }
 
 // Send buttron click with some repeats
-export async function sendButtonClick(params: SendButtonClickDTO){
+export async function sendButtonClick(params: SendButtonClickDTO) {
     // Forming string command to send it to client
     const command = getCommand(ButtonActionTypes.press, keys[params.action]?.label, params.repeatsCount);
 
@@ -165,12 +171,12 @@ export async function sendButtonClick(params: SendButtonClickDTO){
             sendDataOnSocketToClient(client, SocketRoom.SEND_COMMAND, command);
         })
     }
-    catch(e){
+    catch (e) {
         console.log(e);
     }
 }
 
-async function sendDataOnSocketToClient(client:string, room:SocketRoom, command:string) {
+async function sendDataOnSocketToClient(client: string, room: SocketRoom, command: string) {
     // Search client in list
     const clientId = Object.keys(connectedClients).find(
         (id) => id === client

@@ -6,6 +6,8 @@ import { Type } from 'class-transformer';
 export enum ButtonActionTypes {
   press = 'press',
   open = 'open',
+  start = 'start',
+  stop = 'stop'
 }
 
 // DTO для кнопок
@@ -62,4 +64,12 @@ export class SendButtonClickDTO{
   @IsString({ each: true })
   @Type(() => String) // Обязательно для преобразования массива объектов
   emitClients!: string[]
+}
+
+export class ProcessPresetDto{
+  @IsString()
+  name!: string;
+
+  @IsString()
+  path!: string;
 }
