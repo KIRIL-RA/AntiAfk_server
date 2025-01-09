@@ -45,15 +45,17 @@ export const initializeWebSocket = (server: HttpServer, clientPassword: string, 
                     return;
                 }
 
+                const ipAddress = clientSocket.handshake.address.replace(/[^0-9.]/g, '');
+
                 // Getting data bout client
-                console.log('Client connected: ', clientSocket.handshake.address);
-                connectedClients[clientSocket.handshake.address] = clientSocket;
+                console.log('Client connected: ', ipAddress);
+                connectedClients[ipAddress] = clientSocket;
                 const clientData = await getClientByIp(clientSocket.handshake.address);
                 const clientName: string = clientData != null ? clientData?.name : "";
 
                 // Forming dto
                 connectedClientsDto.push({
-                    ip: clientSocket.handshake.address.replace(/[^0-9.]/g, ''),
+                    ip: ipAddress,
                     name: clientName
                 });
                 clientIO.emit(SocketRoom.STATUSES, connectedClientsDto);
