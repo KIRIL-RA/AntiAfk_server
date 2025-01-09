@@ -48,6 +48,16 @@ function fillPresetsTable(presets, options, password) {
     goButtonCell.style.padding = '8px';
     headerRow.appendChild(goButtonCell);
 
+    // Add event listener to "Go" button
+    goButton.addEventListener('click', () => {
+        const checkedIps = getCheckedIps();
+        const repeatsCount = numberInput.value;
+        const selectedAction = dropdown.value;
+
+        sendPushButton(selectedAction, repeatsCount, checkedIps, password);
+        console.log(`Repeats count: ${repeatsCount}, Selected action: ${selectedAction}`);
+    });
+
     table.appendChild(headerRow);
 
     // Find the maximum number of buttons across all presets

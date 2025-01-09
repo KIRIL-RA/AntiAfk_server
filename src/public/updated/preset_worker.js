@@ -89,6 +89,28 @@ async function createPrest(name, buttons, password) {
     }   
 } 
 
+
+async function createProcessPrest(name, path, password) {
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            name: name,
+            path: path
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/add_process_preset`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+} 
+
+
 async function activatePreset(presetId, buttonName, emitClients, password){
     const settings = {
         method: 'POST',

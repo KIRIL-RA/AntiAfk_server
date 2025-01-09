@@ -6,14 +6,13 @@ let keys = '';
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
-const selectPreset = document.getElementById("preset_select");
 const openModalButton = document.getElementById('openModalButton');
+const openProcessModalButton = document.getElementById('openProcessModalButton');
 
 firstInit();
 
 async function firstInit() {
     openModalButton.style.visibility = "hidden";
-    selectPreset.style.visibility = "hidden";
     connectButton.addEventListener('click', () => loginButton());
 }
 
@@ -22,7 +21,6 @@ async function testInit() {
         { ip: "192.168.1.1", name: "name" }
     ];
     openModalButton.style.visibility = "hidden";
-    selectPreset.style.visibility = "hidden";
 
     fillIpsTable(testIps, 'token', (ips_) => {
         console.log(ips_);
@@ -54,13 +52,19 @@ async function loginButton() {
 
     setHeaderButtons(true);
 
-    // Getting preset
-    await presetsFill(password);
-
+    // Modal windows buttons initialization
     openModalButton.addEventListener('click', () => {
+        initializeFormProcess(password);
         initializeForm(password);
         modal.classList.add('active');
     });
+    openProcessModalButton.addEventListener('click', function() {
+        const modal = document.getElementById('process-preset');
+        modal.classList.add('active');
+    });
+
+    // Getting preset
+    await presetsFill(password);
 
     connectSocket(password, clearConnectionData, async (_ips) => {
         // Fill ip's
@@ -73,6 +77,13 @@ async function loginButton() {
         await sendPreset(password);
         await presetsFill(password);
     });
+
+    presetFormProcess.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await sendProcessPreset(password);
+        await presetsFill(password);
+    });
+    
 }
 
 // Fill preset 
@@ -106,5 +117,4 @@ function setHeaderButtons(state) {
     connectButton.disabled = state;
 
     openModalButton.style.visibility = state ? "visible" : "hidden";
-    selectPreset.style.visibility = state ? "visible" : "hidden";
 }
