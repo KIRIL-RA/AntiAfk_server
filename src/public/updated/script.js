@@ -103,6 +103,8 @@ async function presetsFill(password) {
 
     console.log(preset);
     fillPresetsTable(preset.data, keys, password, presetsFill);
+    setKeyOptions(keys);
+    
 }
 
 function clearConnectionData(message) {
