@@ -45,6 +45,30 @@ async function getPreset(presetId, password) {
     }
 }
 
+async function deletePreset(presetId, password) {
+    try {
+        const config = {
+            method: 'DELETE',
+        }
+        const response = await fetch(`/delete_preset/${presetId}?token=${password}`, config)
+        const json = await response.json()
+
+        if (response.ok) return json
+
+        switch (response.status) {
+            case 401:
+                return { msg: "Incorrect password" }
+            case 500:
+            case 404:
+            case 400:
+                return { msg: "Unhadled server exception" }
+        }
+    }
+    catch (e) {
+        return { msg: e }
+    }
+}
+
 async function getKeys(password) {
     try {
         const config = {
@@ -88,6 +112,28 @@ async function createPrest(name, buttons, password) {
         alert(e);
     }   
 } 
+
+
+async function createProcessPrest(name, path, password) {
+    const settings = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            token: password,
+            name: name,
+            path: path
+        })
+    };
+    try {
+        const fetchResponse = await fetch(`/add_process_preset`, settings);
+    } catch (e) {
+        alert(e);
+    }   
+} 
+
 
 async function activatePreset(presetId, buttonName, emitClients, password){
     const settings = {

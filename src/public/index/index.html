@@ -16,16 +16,38 @@
             <input id="password-field" type="password">
             <button id="loginB">Log In</button>
         </div>
-        <div class="preset_select" id="preset_select">
-            <label for="presetSelect">Выберите пресет:</label>
-            <select id="presetSelect"></select>
+        <div id="preset-buttons-blocks">
+            <button id="openModalButton">Add default preset</button>
+            <button id="openProcessModalButton">Add process preset</button>
         </div>
-        <button id="openModalButton">Open Create Preset</button>
     </header>
+    <div id="control-tables">
+        <div id="presets-table">
+
+        </div>
+        <div id="ips-table">
+
+        </div>
+    </div>
     <div id="table-container"></div>
+    <div class="modal" id="process-preset">
+        <div class="container">
+            <h2>Create process preset</h2>
+            <form id="process-preset-form">
+                <div class="inputs">
+                    <input type="text" name="presetName" placeholder="Preset name" required>
+                    <input type="text" name="filePath" placeholder="Filepath" required>
+                </div>
+                <div class="buttons">
+                    <button type="button" id="cancelButtonPro">Cancel</button>
+                    <button type="submit" id="applyButtonPro">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="modal" id="modal">
         <div class="container">
-            <h2>Create Preset</h2>
+            <h2>Create deafult Preset</h2>
             <form id="presetForm">
                 <div class="row">
                     <input type="text" name="presetName" placeholder="Preset name" required>
@@ -79,6 +101,8 @@
 <script src="socket_worker.js"></script>
 <script src="modal_pen_worker.js"></script>
 <script src="modal_worker.js"></script>
+<script src="presets_table_worker.js"></script>
+<script src="process_modal_worker.js"></script>
 <script src="script.js"></script>
 
 </html>

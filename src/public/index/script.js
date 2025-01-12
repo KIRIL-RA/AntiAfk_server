@@ -6,15 +6,45 @@ let keys = '';
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
-const selectPreset = document.getElementById("preset_select");
+const modalButtons = document.getElementById('preset-buttons-blocks');
 const openModalButton = document.getElementById('openModalButton');
+const openProcessModalButton = document.getElementById('openProcessModalButton');
 
 firstInit();
 
 async function firstInit() {
-    openModalButton.style.visibility = "hidden";
-    selectPreset.style.visibility = "hidden";
+    modalButtons.style.visibility = "hidden";
     connectButton.addEventListener('click', () => loginButton());
+}
+
+async function testInit() {
+    const testIps = [
+        { ip: "192.168.1.1", name: "name" }
+    ];
+    modalButtons.style.visibility = "hidden";
+
+    fillIpsTable(testIps, 'token', (ips_) => {
+        console.log(ips_);
+    });
+    // Example usage
+    const presets = [
+        {
+            name: 'Preset 1',
+            id: 1,
+            buttons: ['Button A', 'Button B']
+        },
+        {
+            name: 'Preset 2',
+            id: 2,
+            buttons: ['Button X', 'Button Y', 'Button Z', 'Button W']
+        },
+        {
+            name: 'Preset 3',
+            id: 3,
+            buttons: ['Button 1', 'Button 2', 'Button 3', 'Button 4', 'Button 5']
+        }
+    ];
+    fillPresetsTable(presets, ['k', 'y']);
 }
 
 // Login button handler
@@ -23,25 +53,24 @@ async function loginButton() {
 
     setHeaderButtons(true);
 
-    // Getting preset
-    await presetsFill(password);
-
+    // Modal windows buttons initialization
     openModalButton.addEventListener('click', () => {
+        initializeFormProcess(password);
         initializeForm(password);
         modal.classList.add('active');
     });
+    openProcessModalButton.addEventListener('click', function() {
+        const modal = document.getElementById('process-preset');
+        modal.classList.add('active');
+    });
+
+    // Getting preset
+    await presetsFill(password);
 
     connectSocket(password, clearConnectionData, async (_ips) => {
-        // Get keys
-        const keysResp = await getKeys(password);
-        keys = Object.keys(keysResp.data);
-        setKeyOptions(keys);
-
+        // Fill ip's
         ips = _ips;
-        await createTable(buttonNames, ips, selectedPresed, password, activatePreset, keys);
-
-        // Fill repeats
-        fillRepeatOptions(keyOptions);
+        await fillIpsTable(ips, password);
     });
 
     presetForm.addEventListener('submit', async (e) => {
@@ -49,10 +78,18 @@ async function loginButton() {
         await sendPreset(password);
         await presetsFill(password);
     });
+
+    presetFormProcess.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await sendProcessPreset(password);
+        await presetsFill(password);
+    });
+    
 }
 
 // Fill preset 
 async function presetsFill(password) {
+    // Get presets
     const preset = await getPresets(password);
     console.log(preset);
     if (preset?.msg != undefined) {
@@ -60,66 +97,21 @@ async function presetsFill(password) {
         return;
     }
 
-    fillPresets(preset, password);
-
     // Get keys
     const keysResp = await getKeys(password);
     const keys = Object.keys(keysResp.data);
+
+    console.log(preset);
+    fillPresetsTable(preset.data, keys, password, presetsFill);
     setKeyOptions(keys);
-}
-
-async function handleChangePreset(presetId, password) {
-    const presetData = await getPreset(presetId, password);
-    if (presetData.data == null) {
-        alert("Preset not founded");
-        return;
-    }
-
-    // Extracting buttons
-    const buttons = presetData?.data?.buttons;
-    buttonNames = buttons?.map(item => item.name);
-
-    selectedPresed = presetId;
-    createTable(buttonNames, ips, selectedPresed, password, activatePreset);
-
-    // Fill repeats
-    fillRepeatOptions(keyOptions); 
-}
-
-function fillPresets(preset, password) {
-    const removeOptions = (selectElement) => {
-        var i, L = selectElement.options.length - 1;
-        for (i = L; i >= 0; i--) {
-            selectElement.remove(i);
-        }
-    }
-
-    const selectElement = document.getElementById('presetSelect');
-    removeOptions(selectElement);
-
-    // Fill presets
-    preset?.data.forEach(preset => {
-        const option = document.createElement('option');
-        option.value = preset.id; // id пресета
-        option.textContent = preset.name; // name пресета
-        selectElement.appendChild(option);
-    });
-
-    // Hadler for selector
-    selectElement.addEventListener('change', async (event) => {
-        const selectedId = event.target.value;
-        await handleChangePreset(selectedId, password);
-
-        console.log('Выбранный ID пресета:', selectedId);
-    });
-
-    handleChangePreset(selectElement.value, password);
+    
 }
 
 function clearConnectionData(message) {
     message = message || "Connection failed";
-
+    
     setHeaderButtons(false);
+    clearProcessTable();
     clearTable();
     alert(message);
 }
@@ -128,6 +120,5 @@ function setHeaderButtons(state) {
     passwordField.disabled = state;
     connectButton.disabled = state;
 
-    openModalButton.style.visibility = state ? "visible" : "hidden";
-    selectPreset.style.visibility = state ? "visible" : "hidden";
+    modalButtons.style.visibility = state ? "visible" : "hidden";
 }

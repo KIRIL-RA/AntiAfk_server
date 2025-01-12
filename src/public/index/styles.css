@@ -29,7 +29,7 @@ header {
     width: 100%;
 }
 
-.login-input {
+.login-input, #preset-buttons-blocks {
     padding-top: 5px;
     padding-left: 5px;
 }
@@ -54,13 +54,12 @@ th:first-child {
 }
 
 th:last-child {
-    width: 300px;
+    width: 100px;
     display: flex;
     flex-direction: row;
 }
 
 td:first-child {
-    display: flex;
     flex-direction: row;
     width: 150px;
 }
@@ -72,13 +71,32 @@ td:first-child button {
 }
 
 td:last-child {
-    width: 300px;
+    width: 100px;
 }
 
-th:nth-last-child(2), td:nth-last-child(2) {
+#ipTable th:nth-last-child(2), #ipTable td:nth-last-child(2) {
     border-right: 2px solid #000;
 }
 
-input, select{
+select{
     max-width: 70px;
+}
+
+#control-tables{
+    display: flex;
+    flex-direction: row;
+    height: 500px;
+    width: 100%;
+}
+
+#presets-table{
+    width: 100%;
+}
+
+#ips-table{
+    width: 100%;
+}
+
+#ips-table, #presets-table{
+    padding: 5px;
 }

@@ -12,6 +12,7 @@
 }
 .modal.active {
     display: flex;
+    flex-direction: row;
 }
 .container {
     background-color: white;
@@ -32,4 +33,14 @@ input, select, button {
 .buttons {
     display: flex;
     justify-content: space-between;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs input{
+    height: 100%;
+    margin-bottom: 5px;
 }
