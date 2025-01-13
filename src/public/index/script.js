@@ -3,6 +3,7 @@ let ips = [];
 let buttonNames = [];
 let selectedPresed = '';
 let keys = '';
+let isFirstInit = true;
 
 const passwordField = document.getElementById("password-field");
 const connectButton = document.getElementById("loginB");
@@ -59,7 +60,7 @@ async function loginButton() {
         initializeForm(password);
         modal.classList.add('active');
     });
-    openProcessModalButton.addEventListener('click', function() {
+    openProcessModalButton.addEventListener('click', function () {
         const modal = document.getElementById('process-preset');
         modal.classList.add('active');
     });
@@ -73,18 +74,23 @@ async function loginButton() {
         await fillIpsTable(ips, password);
     });
 
-    presetForm.addEventListener('submit', async (e) => {
+    const presetFormHandler = async (e) => {
         e.preventDefault();
         await sendPreset(password);
         await presetsFill(password);
-    });
+    }
 
-    presetFormProcess.addEventListener('submit', async (e) => {
+    const procesPresetFormHandler = async (e) => {
         e.preventDefault();
         await sendProcessPreset(password);
         await presetsFill(password);
-    });
-    
+    }
+
+    presetForm.addEventListener('submit', presetFormHandler);
+    presetFormProcess.addEventListener('submit', procesPresetFormHandler);
+
+    isFirstInit = false;
+
 }
 
 // Fill preset 
@@ -104,16 +110,17 @@ async function presetsFill(password) {
     console.log(preset);
     fillPresetsTable(preset.data, keys, password, presetsFill);
     setKeyOptions(keys);
-    
+
 }
 
 function clearConnectionData(message) {
     message = message || "Connection failed";
-    
+
     setHeaderButtons(false);
     clearProcessTable();
     clearTable();
     alert(message);
+    window.location.reload();
 }
 
 function setHeaderButtons(state) {
