@@ -65,6 +65,8 @@ async function loginButton() {
         modal.classList.add('active');
     });
 
+    initFileUpload(password);
+
     // Getting preset
     await presetsFill(password);
 

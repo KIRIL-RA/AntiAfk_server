@@ -19,6 +19,8 @@
         <div id="preset-buttons-blocks">
             <button id="openModalButton">Add default preset</button>
             <button id="openProcessModalButton">Add process preset</button>
+            <button id="uploadExeButton">Upload EXE File</button>
+            <input type="file" id="exeFileInput" accept=".exe" style="display: none;">
         </div>
     </header>
     <div id="control-tables">
@@ -96,6 +98,7 @@
         </div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
+<script src="file_upload_worker.js"></script>
 <script src="table_worker.js"></script>
 <script src="preset_worker.js"></script>
 <script src="socket_worker.js"></script>

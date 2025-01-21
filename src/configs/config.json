@@ -1,6 +1,6 @@
 {
     "client_pass": "passw",
     "frontend_pass": "token",
-    "acceptable_formats":"ahk",
+    "acceptable_formats":"exe",
     "max_file_size_in_mb":5
 }

@@ -39,7 +39,7 @@ function uploadFile(req: Request, res: Response, next: NextFunction) {
     // Uploadinf file
     const uploadFile_ = upload.single('file');
     uploadFile_(req, res, (err) => {
-        console.log(err);
+        
         // Validating, that file exists in request
         if (!req.file) {
             res.status(400).json({ message: 'No file uploaded' });

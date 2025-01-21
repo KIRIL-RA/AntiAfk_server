@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import verifyToken from '../../middlewares/verify_token';
+import verifyToken from '../../middlewares/verify_client_token';
 import path from 'path';
 import fs from 'fs';
 import { config } from '../../configs/config_loader';
