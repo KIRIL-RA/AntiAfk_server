@@ -158,7 +158,22 @@ export async function sendAction(params: ActionDTO) {
     }
 }
 
-// Send buttron click with some repeats
+// Send upload file command with some repeats
+export async function sendUploadFile(fileName: string) {
+    // Forming string command to send it to client
+    const command = getCommand(ButtonActionTypes.download, fileName,);
+
+    try {
+        // Trying to send download action  to all clients
+        const connectedClientIds = Object.keys(connectedClients);
+        connectedClientIds.forEach(clientId => sendDataOnSocketToClient(clientId, SocketRoom.SEND_COMMAND, command).catch(e => console.log(e)));
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+// Send button click with some repeats
 export async function sendButtonClick(params: SendButtonClickDTO) {
     // Forming string command to send it to client
     const command = getCommand(ButtonActionTypes.press, keys[params.action]?.label, params.repeatsCount);

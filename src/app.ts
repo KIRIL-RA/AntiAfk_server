@@ -16,7 +16,9 @@ import getClient from "./routes/client_handlers/get_client"
 
 import sendAction from "./routes/action_handlers/send_action"
 import sendButton from "./routes/action_handlers/send_button"
-import path from 'path';
+
+import uploadFile from "./routes/fileHandlers/upload";
+import getFile from "./routes/fileHandlers/get_file";
 
 // Config server
 const clientPort = config.port;
@@ -28,6 +30,7 @@ initializeWebSocket(server, config.client_pass, config.frontend_pass);
 
 // Setting up routes
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(config.publicPath));
 
 app.use(createPreset);
@@ -42,6 +45,9 @@ app.use(getClient);
 
 app.use(sendAction);
 app.use(sendButton);
+
+app.use(uploadFile);
+app.use(getFile);
 
 // Start the servers
 server.listen(clientPort, () => console.log(`Client server listening on port: ${clientPort}`));

@@ -7,7 +7,8 @@ export enum ButtonActionTypes {
   press = 'press',
   open = 'open',
   start = 'start',
-  stop = 'stop'
+  stop = 'stop',
+  download = 'download'
 }
 
 // DTO для кнопок

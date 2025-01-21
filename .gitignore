@@ -4,3 +4,4 @@ dist
 prisma/migrations
 build
 *.zip
+server_uploads
